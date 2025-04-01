@@ -134,7 +134,7 @@ export const Home = () => {
 
   return (
     <main className="font-[family-name:var(--font-geist-sans)]">
-      <div ref={mapContainer} className="w-full h-[calc(100vh-52px)]"></div>
+      <div ref={mapContainer} className="w-full h-[calc(100vh-52px-28px)]"></div>
     </main>
   );
 }

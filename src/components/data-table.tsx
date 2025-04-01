@@ -35,7 +35,7 @@ function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="rounded-md border w-full">
+    <div className="rounded-md border w-full min-h-0 [&>*]:max-h-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
