@@ -56,7 +56,7 @@ export default function RootLayout({
         </div>
         {children}
         <div className="py-1 px-6 text-sm text-gray-500">
-          Vatsim Visualized by <a href="https://gabrielchl.dev/" className="text-blue-400 hover:underline">Gabriel Lee</a> :&#41;
+          VATSIM Visualized by <a href="https://gabrielchl.dev/" className="text-blue-400 hover:underline">Gabriel Lee</a> :&#41;
         </div>
       </body>
     </html>

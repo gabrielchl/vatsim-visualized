@@ -18,7 +18,7 @@ const Home = () => {
       container: mapContainer.current,
       style: {
         version: 8,
-        glyphs: "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+        glyphs: "https://fonts.undpgeohub.org/fonts/{fontstack}/{range}.pbf",
         sources: {
           osm: {
             type: "raster",
