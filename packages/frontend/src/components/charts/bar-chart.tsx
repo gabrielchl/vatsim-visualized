@@ -55,7 +55,7 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
   }
 
   return (
-    <Card className="flex flex-col relative">
+    <Card className="flex flex-col relative shadow-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

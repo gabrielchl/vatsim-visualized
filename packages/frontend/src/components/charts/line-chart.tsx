@@ -26,7 +26,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, xAxi
   const chartConfig = Object.fromEntries(keys.map((key, i) => [key.replace(/[^A-Za-z0-9]/g, ""), {label: key, color: `var(--chart-${(i % 5) + 1})`}]));
 
   return (
-    <Card className="flex flex-col relative">
+    <Card className="flex flex-col relative shadow-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
