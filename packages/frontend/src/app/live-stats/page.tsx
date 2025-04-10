@@ -27,6 +27,9 @@ const LiveStats = () => {
 
   return (
     <div className="@container">
+      <h1 className="px-6 pt-2 text-2xl">Live Stats</h1>
+      <p className="px-6">The data on this page automatically refreshes every 5 seconds.</p>
+      <p className="px-6">Viewing on desktop is encouraged given the density of the data.</p>
       <h2 className="px-6 pt-4 text-lg">Aircraft</h2>
       <div className={gridClasses}>
         <AircraftType rawData={rawData} />

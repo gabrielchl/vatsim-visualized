@@ -15,9 +15,9 @@ export const ControllerCount: FC<Props> = ({rawData}) => {
     })
   );
   
-    return (
-      <LineChart data={data} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" />
-    );
+  return (
+    <LineChart data={data} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" />
+  );
 };
 
 export default ControllerCount;

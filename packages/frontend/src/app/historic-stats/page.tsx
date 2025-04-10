@@ -5,6 +5,7 @@ import { HistoricData } from "../types";
 import PilotCount from "./components/pilot-count";
 import ControllerCount from "./components/controller-count";
 import TopAircraftTypes from "./components/top-aircraft-types";
+import TopAircraftTypes5 from "./components/top-aircraft-types-5";
 
 const HistoricStats = () => {
   const [rawData, setRawData] = useState<HistoricData | undefined>();
@@ -26,10 +27,14 @@ const HistoricStats = () => {
 
   return (
     <div className="@container">
+      <h1 className="px-6 pt-2 text-2xl">Historic Stats</h1>
+      <p className="px-6">The data on this page does not automatically refresh.</p>
+      <p className="px-6 mb-2">Viewing on desktop is encouraged given the density of the data.</p>
       <div className={gridClasses}>
         <PilotCount rawData={rawData} />
         <ControllerCount rawData={rawData} />
         <TopAircraftTypes rawData={rawData} />
+        <TopAircraftTypes5 rawData={rawData} />
       </div>
     </div>
   )

@@ -31,22 +31,26 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <div className="flex flex-row gap-1 items-center py-2 px-6">
-          <Link href="/" className="mr-4 flex flex-row items-center gap-1"><img className="h-8 inline" src="/logo.png" height="24" width="auto" alt="VATSIM Visualized logo"/>VATSIM Visualized</Link>
+          <Link href="/" className="mr-1 flex flex-row items-center gap-1"><img className="h-8 inline" src="/logo.png" height="24" width="auto" alt="VATSIM Visualized logo"/>VATSIM Visualized</Link>
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
                 <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink>
                     Map
                   </NavigationMenuLink>
                 </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
                 <Link href="/live-stats" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink>
                     Live Stats
                   </NavigationMenuLink>
                 </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
                 <Link href="/historic-stats" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink>
                     Historic Stats
                   </NavigationMenuLink>
                 </Link>
@@ -56,7 +60,7 @@ export default function RootLayout({
         </div>
         {children}
         <div className="py-1 px-6 text-sm text-gray-500">
-          VATSIM Visualized by <a href="https://gabrielchl.dev/" className="text-blue-400 hover:underline">Gabriel Lee</a> :&#41;
+          VATSIM Visualized by <a href="https://gabrielchl.dev/" className="text-blue-400 hover:underline">Gabriel Lee</a>, <a href="https://github.com/gabrielchl/vatsim-visualized" className="text-blue-400 hover:underline">Source code</a> :&#41;
         </div>
       </body>
     </html>

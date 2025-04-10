@@ -31,7 +31,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, xAxi
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0 flex items-center">
+      <CardContent className="flex-1 px-3 pb-0 flex items-center">
         <ChartContainer
           config={chartConfig}
           className="mx-auto h-[450px] max-h-full max-w-full"
@@ -55,11 +55,8 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, xAxi
                 type="natural"
                 isAnimationActive={false}
                 stroke={`var(--color-${key.replace(/[^A-Za-z0-9]/g, "")})`}
-                strokeWidth={1.5}
-                dot={{
-                  fill: `var(--color-${key.replace(/[^A-Za-z0-9]/g, "")})`,
-                  r: 2,
-                }}
+                strokeWidth={2}
+                dot={false}
               />
             ))}
             <ChartTooltip content={<ChartTooltipContent cursor={false} labelFormatter={(time) => dayjs(time).format('D MMM HH:mm')} />} />

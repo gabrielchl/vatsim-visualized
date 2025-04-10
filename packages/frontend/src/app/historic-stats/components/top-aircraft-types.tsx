@@ -15,9 +15,9 @@ export const TopAircraftTypes: FC<Props> = ({rawData}) => {
     })
   );
   
-    return (
-      <LineChart data={data} title="Top aircraft types" description="Top 10 aircraft types on the network at a given time" yAxisLabel="# of connections" legend />
-    );
+  return (
+    <LineChart data={data} title="Top aircraft types" description="Top 10 aircraft types on the network at a given time" yAxisLabel="# of connections" legend />
+  );
 };
 
 export default TopAircraftTypes;

@@ -77,12 +77,12 @@ export const PieChart: FC<Props> = ({types, title, description, topNToShow}) => 
           </DialogContent>
         </Dialog>
       </div>
-      <CardContent className="flex-1 pb-0 flex items-center">
+      <CardContent className="flex-1 px-0 pb-0 flex items-center">
         <ChartContainer
           config={chartConfig}
           className="mx-auto h-[450px] max-h-full max-w-full"
         >
-          <PieChartRecharts>
+          <PieChartRecharts margin={{ right: 70, left: 70 }}>
             <ChartTooltip content={<ChartTooltipContent />} />
             <Pie data={chartData} dataKey="count" label={(entry) => `${entry.type}: ${entry.count}`} nameKey="type" isAnimationActive={false} />
           </PieChartRecharts>

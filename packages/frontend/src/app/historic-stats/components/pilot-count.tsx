@@ -15,9 +15,9 @@ export const PilotCount: FC<Props> = ({rawData}) => {
     })
   );
   
-    return (
-      <LineChart data={data} title="Pilot count" description="Number of pilots on the network at a given time" yAxisLabel="# of pilots" />
-    );
+  return (
+    <LineChart data={data} title="Pilot count" description="Number of pilots on the network at a given time" yAxisLabel="# of pilots" />
+  );
 };
 
 export default PilotCount;
