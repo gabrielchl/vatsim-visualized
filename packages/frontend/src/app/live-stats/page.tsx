@@ -8,13 +8,14 @@ import AircraftEngineCount from "./components/aircraft-engine-count";
 import AircraftWakeTurbulenceCategory from "./components/aircraft-wake-turbulence-category";
 import PilotHomeAirportCountry from "./components/pilot-home-airport-country";
 import PilotHomeAirportContinent from "./components/pilot-home-airport-continent";
-import RatingPilot from "./components/rating-pilot";
-import RatingController from "./components/rating-controller";
+import PilotRating from "./components/pilot-rating";
+import ControllerRating from "./components/controller-rating";
 import PlanFlightRules from "./components/plan-flight-rules";
 import PlanDepartureAirport from "./components/plan-departure-airport";
 import PlanArrivalAirport from "./components/plan-arrival-airport";
 import PlanRoute from "./components/plan-route";
 import PlanFlightDistance from "./components/plan-flight-distance";
+import Counter from "@/components/counter";
 
 const LiveStats = () => {
   const rawData = useVatsimData();
@@ -40,14 +41,17 @@ const LiveStats = () => {
       </div>
       <h2 className="px-6 pt-4 text-lg">Pilots</h2>
       <div className={gridClasses}>
+        <Counter count={rawData.pilots.length} title="Online pilots" description="Total number of connected pilots" />
         <PilotHomeAirport rawData={rawData} />
         <PilotHomeAirportCountry rawData={rawData} />
         <PilotHomeAirportContinent rawData={rawData} />
+        <PilotRating rawData={rawData} />
       </div>
-      <h2 className="px-6 pt-4 text-lg">Ratings</h2>
+      <h2 className="px-6 pt-4 text-lg">Controllers</h2>
       <div className={gridClasses}>
-        <RatingPilot rawData={rawData} />
-        <RatingController rawData={rawData} />
+        <Counter count={rawData.controllers.length} title="Online controllers" description="Total number of connected controllers" />
+        <Counter count={rawData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers, excluding inactive, suspected or observers" />
+        <ControllerRating rawData={rawData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Flight plan</h2>
       <div className={gridClasses}>

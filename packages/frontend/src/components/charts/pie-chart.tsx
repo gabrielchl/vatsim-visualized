@@ -80,7 +80,7 @@ export const PieChart: FC<Props> = ({types, title, description, topNToShow}) => 
       <CardContent className="flex-1 px-0 pb-0 flex items-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto h-[450px] max-h-full max-w-full"
+          className="mx-auto h-[450px] max-h-full max-w-full w-full"
         >
           <PieChartRecharts margin={{ right: 70, left: 70 }}>
             <ChartTooltip content={<ChartTooltipContent />} />

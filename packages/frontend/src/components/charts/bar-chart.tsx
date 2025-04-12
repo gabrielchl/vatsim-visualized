@@ -89,13 +89,13 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
       <CardContent className="flex-1 px-3 pb-0 flex items-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto h-[450px] max-h-full max-w-full"
+          className="mx-auto h-[450px] max-h-full max-w-full w-full"
         >
           <BarChartRecharts accessibilityLayer data={chartData} {...props}>
             <ChartTooltip content={<ChartTooltipContent />} />
             <CartesianGrid vertical={false} />
             <XAxis dataKey="type" label={{value: xAxisLabel, position: 'bottom', offset: -7}} tickLine={false} axisLine={false} {...xAxisProps} />
-            <YAxis label={{value: yAxisLabel, angle: -90, position: 'insideLeft'}} tickLine={false} axisLine={false} domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.02 / 4) * 4]} />
+            <YAxis label={{value: yAxisLabel, angle: -90, position: 'insideLeft'}} tickLine={false} axisLine={false} />
             <Bar dataKey="count" isAnimationActive={false} radius={8}>
               <LabelList position="top" />
             </Bar>

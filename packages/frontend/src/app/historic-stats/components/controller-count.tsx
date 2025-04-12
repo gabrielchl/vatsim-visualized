@@ -16,7 +16,7 @@ export const ControllerCount: FC<Props> = ({rawData}) => {
   );
   
   return (
-    <LineChart data={data} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" />
+    <LineChart data={data} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" lineColorIndexes={{count: 3}} />
   );
 };
 

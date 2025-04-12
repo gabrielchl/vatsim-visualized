@@ -7,7 +7,7 @@ interface Props {
   rawData: VatsimDataFeed;
 }
 
-export const RatingPilot: FC<Props> = ({rawData}) => {
+export const PilotRating: FC<Props> = ({rawData}) => {
   const ratings = Object.fromEntries(rawData.pilot_ratings.map(({id, short_name}) => [id, short_name]));
 
   const types = rawData.pilots.map(
@@ -19,4 +19,4 @@ export const RatingPilot: FC<Props> = ({rawData}) => {
   );
 };
 
-export default RatingPilot;
+export default PilotRating;
