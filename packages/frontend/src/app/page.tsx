@@ -1,4 +1,5 @@
 "use client";
+import { mapStyle } from '@/consts/map-style';
 import { useVatsimData } from '@/hooks/vatsim-data';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -16,26 +17,7 @@ const Home = () => {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: {
-        version: 8,
-        glyphs: "https://fonts.undpgeohub.org/fonts/{fontstack}/{range}.pbf",
-        sources: {
-          osm: {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution: "&copy; OpenStreetMap Contributors",
-            maxzoom: 19
-          }
-        },
-        layers: [
-          {
-            id: "osm",
-            type: "raster",
-            source: "osm"
-          }
-        ],
-      },
+      style: mapStyle,
       center: [9, 48],
       zoom: 3,
       maxZoom: 18,
@@ -73,7 +55,7 @@ const Home = () => {
           ],
           'icon-rotate': ['get', 'heading'],
           'text-field': ['get', 'callsign'],
-          'text-font': ['Open Sans Regular'],
+          'text-font': ['Noto Sans Regular'],
           'text-optional': true,
           'text-anchor': 'top',
           'text-offset': [0, 1],
