@@ -55,12 +55,12 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
   }
 
   return (
-    <Card className="flex flex-col relative shadow-none">
+    <Card className="flex flex-col relative shadow-none max-sm:border-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-2 right-2">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="secondary"><Table /></Button>

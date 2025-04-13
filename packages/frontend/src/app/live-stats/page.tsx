@@ -24,10 +24,10 @@ const LiveStats = () => {
     return null;
   }
 
-  const gridClasses = 'grid grid-cols-1 @min-[650px]:grid-cols-[repeat(auto-fill,minmax(600px,1fr))] py-2 px-6 gap-2';
+  const gridClasses = 'grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(600px,1fr))] py-2 px-6 gap-2 max-sm:px-0';
 
   return (
-    <div className="@container">
+    <>
       <h1 className="px-6 pt-2 text-2xl">Live Stats</h1>
       <p className="px-6">The data on this page automatically refreshes every 5 seconds.</p>
       <p className="px-6">Viewing on desktop is encouraged given the density of the data.</p>
@@ -61,7 +61,7 @@ const LiveStats = () => {
         <PlanArrivalAirport rawData={rawData} />
         <PlanFlightDistance rawData={rawData} />
       </div>
-    </div>
+    </>
   )
 };
 

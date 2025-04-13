@@ -23,6 +23,15 @@ const Home = () => {
       maxZoom: 18,
     });
 
+    // disable map rotation using right click + drag
+    map.current.dragRotate.disable();
+
+    // disable map rotation using keyboard
+    map.current.keyboard.disable();
+
+    // disable map rotation using touch rotation gesture
+    map.current.touchZoomRotate.disableRotation();
+
     map.current?.on('load', async () => {
       if (!map.current) {
         return;

@@ -4,6 +4,9 @@ import "./globals.css";
 import { NavigationMenu } from "@radix-ui/react-navigation-menu";
 import { NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +23,12 @@ export const metadata: Metadata = {
   description: "Visualize live and historic data from VATSIM",
 };
 
+const links = [
+  {href: '/', label: 'Map'},
+  {href: '/live-stats', label: 'Live Stats'},
+  {href: '/historic-stats', label: 'Historic Stats'},
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,29 +41,31 @@ export default function RootLayout({
       >
         <div className="flex flex-row gap-1 items-center py-2 px-6">
           <Link href="/" className="mr-1 flex flex-row items-center gap-1"><img className="h-8 inline" src="/logo.svg" height="32" width="auto" alt="VATSIM Visualized logo"/>VATSIM Visualized</Link>
-          <NavigationMenu>
+          <Sheet>
+            <SheetTrigger asChild><Button variant="outline" className="sm:hidden ml-auto"><Menu /></Button></SheetTrigger>
+            <SheetContent>
+              <div className="flex flex-col gap-4 mx-4 mt-8 text-md font-semibold">
+                {links.map(({href, label}) => (
+                  <SheetClose key={label} asChild>
+                    <Link href={href}>
+                      {label}
+                    </Link>
+                  </SheetClose>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+          <NavigationMenu className="hidden sm:block">
             <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink>
-                    Map
-                  </NavigationMenuLink>
-                </Link>
+              {links.map(({href, label}) => (
+                <NavigationMenuItem key={label}>
+                  <Link href={href}>
+                    <NavigationMenuLink>
+                      {label}
+                    </NavigationMenuLink>
+                  </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/live-stats" legacyBehavior passHref>
-                  <NavigationMenuLink>
-                    Live Stats
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/historic-stats" legacyBehavior passHref>
-                  <NavigationMenuLink>
-                    Historic Stats
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
+              ))}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
