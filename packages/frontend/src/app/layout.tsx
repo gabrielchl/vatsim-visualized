@@ -6,7 +6,7 @@ import { NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/co
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetClose, SheetTitle } from "@/components/ui/sheet";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +44,7 @@ export default function RootLayout({
           <Sheet>
             <SheetTrigger asChild><Button variant="outline" className="sm:hidden ml-auto"><Menu /></Button></SheetTrigger>
             <SheetContent>
+              <SheetTitle hidden>Navigation menu</SheetTitle>
               <div className="flex flex-col gap-4 mx-4 mt-8 text-md font-semibold">
                 {links.map(({href, label}) => (
                   <SheetClose key={label} asChild>
@@ -59,11 +60,11 @@ export default function RootLayout({
             <NavigationMenuList>
               {links.map(({href, label}) => (
                 <NavigationMenuItem key={label}>
-                  <Link href={href}>
-                    <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link href={href}>
                       {label}
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
               </NavigationMenuItem>
               ))}
             </NavigationMenuList>
