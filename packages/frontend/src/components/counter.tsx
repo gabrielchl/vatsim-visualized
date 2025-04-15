@@ -10,7 +10,7 @@ interface Props {
 
 export const Counter: FC<Props> = ({count, title, description}) => {
   return (
-    <Card className="flex flex-col relative shadow-none">
+    <Card className="flex flex-col relative shadow-none max-sm:border-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

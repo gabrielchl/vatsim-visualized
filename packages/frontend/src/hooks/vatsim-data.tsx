@@ -12,7 +12,7 @@ export const useVatsimData = () => {
       setRawData(decoded);
     };
     updateData();
-    const timeout = setInterval(updateData, 5000);
+    const timeout = setInterval(updateData, 16000);
     return () => clearInterval(timeout);
   }, []);
 

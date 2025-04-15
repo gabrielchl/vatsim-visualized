@@ -1,7 +1,9 @@
+import { GeoJSONSource, Source } from "maplibre-gl";
+
 export type VatsimDataFeed = {
   general: {
     version: number;
-    update_timestamp: number;
+    update_timestamp: string;
     connected_clients: number;
     unique_users: number;
   };
@@ -66,3 +68,5 @@ export type VatsimDataFeed = {
 }
 
 export type HistoricData = Record<string, {timestamp: number, details: string}[]>;
+
+export const isGeoJsonSource = (source?: Source): source is GeoJSONSource => source?.type === 'geojson';

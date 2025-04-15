@@ -4,11 +4,40 @@ import { useVatsimData } from '@/hooks/vatsim-data';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect, useRef } from "react";
+import { isGeoJsonSource, VatsimDataFeed } from './types';
+import { LastUpdateIndicator } from '@/components/last-update-indicator';
+
+const calculateMapData = (rawData: VatsimDataFeed | undefined): GeoJSON.GeoJSON => {
+  if (!rawData) {
+    return {
+      type: 'FeatureCollection',
+      features: [],
+    };
+  }
+
+  return {
+    type: "FeatureCollection",
+    features: rawData.pilots.map((pilot) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [pilot.longitude, pilot.latitude],
+      },
+      properties: {
+        heading: pilot.heading,
+        callsign: pilot.callsign,
+      }
+    })),
+  }
+};
 
 const Home = () => {
   const rawData = useVatsimData();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
+
+  const rawDataRef = useRef<VatsimDataFeed | undefined>(rawData); // just for the first time
+  useEffect(() => {rawDataRef.current = rawData}, [rawData]);
 
   useEffect(() => {
     if (map.current || !mapContainer.current) {
@@ -21,6 +50,9 @@ const Home = () => {
       center: [9, 48],
       zoom: 3,
       maxZoom: 18,
+      canvasContextAttributes: {
+        preserveDrawingBuffer: true,
+      },
     });
 
     // disable map rotation using right click + drag
@@ -41,10 +73,7 @@ const Home = () => {
       map.current.addImage('plane', image.data);
       map.current.addSource('aircraft',  {
         type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: []
-        }
+        data: calculateMapData(rawDataRef.current),
       });
       map.current.addLayer({
         id: 'aircraft',
@@ -77,9 +106,11 @@ const Home = () => {
           return;
         }
 
-        map.current.flyTo({
-            center: (e.features?.[0]?.geometry as any).coordinates
-        });
+        if (e.features?.[0]?.geometry?.type === 'Point') {
+          map.current.flyTo({
+            center: e.features?.[0]?.geometry.coordinates as [number, number],
+          });
+        }
       });
 
       // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
@@ -103,29 +134,24 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!rawData) {
+    if (!rawData || !map.current) {
       return;
     }
 
-    (map.current?.getSource("aircraft") as any)?.setData({
-      type: "FeatureCollection",
-      features: rawData.pilots.map((pilot) => ({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [pilot.longitude, pilot.latitude],
-        },
-        properties: {
-          heading: pilot.heading,
-          callsign: pilot.callsign,
-        }
-      })),
-    });
+    const source = map.current.getSource("aircraft");
+    if (!isGeoJsonSource(source)) {
+      return;
+    }
+    source.setData(calculateMapData(rawData));
+    // console.log(map.current.getCanvas().toDataURL());
   }, [rawData]);
 
   return (
-    <main className="font-[family-name:var(--font-geist-sans)]">
+    <main className="font-[family-name:var(--font-geist-sans)] relative">
       <div ref={mapContainer} className="w-full h-[calc(100vh-52px-28px)]"></div>
+      <div className={"absolute top-0 right-0 py-1 px-2 bg-white rounded-bl-md"}>
+        <LastUpdateIndicator rawData={rawData} />
+      </div>
     </main>
   );
 }

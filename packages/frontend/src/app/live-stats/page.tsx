@@ -16,6 +16,7 @@ import PlanArrivalAirport from "./components/plan-arrival-airport";
 import PlanRoute from "./components/plan-route";
 import PlanFlightDistance from "./components/plan-flight-distance";
 import Counter from "@/components/counter";
+import { LastUpdateIndicator } from "@/components/last-update-indicator";
 
 const LiveStats = () => {
   const rawData = useVatsimData();
@@ -28,9 +29,14 @@ const LiveStats = () => {
 
   return (
     <>
-      <h1 className="px-6 pt-2 text-2xl">Live Stats</h1>
-      <p className="px-6">The data on this page automatically refreshes every 5 seconds.</p>
-      <p className="px-6">Viewing on desktop is encouraged given the density of the data.</p>
+      <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between">
+        <div>
+          <h1 className="text-2xl">Live Stats</h1>
+          <p>The data on this page automatically refreshes every 16 seconds.</p>
+          <p>Viewing on desktop is encouraged given the density of the data.</p>
+        </div>
+        <LastUpdateIndicator rawData={rawData} />
+      </div>
       <h2 className="px-6 pt-4 text-lg">Aircraft</h2>
       <div className={gridClasses}>
         <AircraftType rawData={rawData} />

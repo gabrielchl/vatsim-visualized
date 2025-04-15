@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HistoricData } from "../types";
 import PilotCount from "./components/pilot-count";
 import ControllerCount from "./components/controller-count";
@@ -20,6 +20,14 @@ const HistoricStats = () => {
     fetchData();
   }, []);
 
+  const latestTimestamp = useMemo(() => {
+    if (!rawData) {
+      return undefined;
+    }
+
+    return Math.max(...Object.keys(rawData).flatMap((key) => rawData[key].map((item) => item.timestamp)));
+  }, [rawData]);
+
   if (!rawData) {
     return null;
   }
@@ -28,9 +36,16 @@ const HistoricStats = () => {
 
   return (
     <>
-      <h1 className="px-6 pt-2 text-2xl">Historic Stats</h1>
-      <p className="px-6">The data is updated every 30 minutes, but this page will not automatically refresh.</p>
-      <p className="px-6 mb-2">Viewing on desktop is encouraged given the density of the data.</p>
+      <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between">
+        <div>
+          <h1 className="text-2xl">Historic Stats</h1>
+          <p>The data is updated every 30 minutes, but this page will not automatically refresh.</p>
+          <p>Viewing on desktop is encouraged given the density of the data.</p>
+        </div>
+        <div className="text-sm">
+          Last updated: {latestTimestamp ? new Date(latestTimestamp).toLocaleString() : 'Loading...'}
+        </div>
+      </div>
       <div className={gridClasses}>
         <PilotCount rawData={rawData} />
         <ControllerCount rawData={rawData} />
