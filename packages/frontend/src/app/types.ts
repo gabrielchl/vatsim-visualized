@@ -1,6 +1,7 @@
+import { FilterKey } from "@/components/filters/types";
 import { GeoJSONSource, Source } from "maplibre-gl";
 
-export type VatsimDataFeed = {
+export type VatsimDataFeedOriginal = {
   general: {
     version: number;
     update_timestamp: string;
@@ -66,6 +67,8 @@ export type VatsimDataFeed = {
   }[];
   // INCOMPLETE
 }
+
+export type VatsimDataFeed = Omit<VatsimDataFeedOriginal, 'pilots'> & {pilots: (VatsimDataFeedOriginal['pilots'][0] & {custom: Record<FilterKey, string | undefined>})[]};
 
 export type HistoricData = Record<string, {timestamp: number, details: string}[]>;
 

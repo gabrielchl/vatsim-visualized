@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased min-h-screen`}
       >
         <div className="flex flex-row gap-1 items-center py-2 px-6">
           <Link href="/" className="mr-1 flex flex-row items-center gap-1"><img className="h-8 inline" src="/logo.svg" height="32" width="auto" alt="VATSIM Visualized logo"/>VATSIM Visualized</Link>

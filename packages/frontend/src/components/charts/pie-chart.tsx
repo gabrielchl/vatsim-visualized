@@ -19,7 +19,7 @@ type Row = {type: string, count: number};
 
 export const PieChart: FC<Props> = ({types, title, description, topNToShow}) => {
   const {chartData, tableData}: {chartData?: Row[], tableData?: Row[]} = useMemo(() => {
-    const typeCounts = types.reduce((obj: Record<string, number>, type) => type ? ({...obj, [type]: (obj[type] || 0) + 1}) : obj, {});
+    const typeCounts = types.reduce((obj: Record<string, number>, type) => ({...obj, [type || 'Unknown']: (obj[type || 'Unknown'] || 0) + 1}), {});
 
     const sorted = Object.entries(typeCounts).toSorted((a, b) => b[1] - a[1]);
 
@@ -56,7 +56,7 @@ export const PieChart: FC<Props> = ({types, title, description, topNToShow}) => 
           <DialogTrigger asChild>
             <Button variant="secondary"><Table /></Button>
           </DialogTrigger>
-          <DialogContent className="h-[calc(100vh-20px)] flex flex-col">
+          <DialogContent className="h-[calc(100vh-40px)] flex flex-col">
             <DialogHeader>
               <DialogTitle>{title}</DialogTitle>
               <DialogDescription>{description}</DialogDescription>

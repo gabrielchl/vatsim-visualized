@@ -23,6 +23,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
+// based on https://ui.shadcn.com/docs/components/data-table
 function DataTable<TData, TValue>({
   columns,
   data,

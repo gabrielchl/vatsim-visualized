@@ -65,7 +65,7 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
           <DialogTrigger asChild>
             <Button variant="secondary"><Table /></Button>
           </DialogTrigger>
-          <DialogContent className="h-[calc(100vh-20px)] flex flex-col">
+          <DialogContent className="h-[calc(100vh-40px)] flex flex-col">
             <DialogHeader>
               <DialogTitle>{title}</DialogTitle>
               <DialogDescription>{description}</DialogDescription>

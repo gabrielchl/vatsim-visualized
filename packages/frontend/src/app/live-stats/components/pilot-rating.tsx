@@ -15,7 +15,7 @@ export const PilotRating: FC<Props> = ({rawData}) => {
   );
   
   return (
-    <PieChart types={types} title="Pilot ratings" description="Ratings of all connected pilots" />
+    <PieChart types={types} title="Pilot rating" description="Ratings of all connected pilots" />
   );
 };
 
