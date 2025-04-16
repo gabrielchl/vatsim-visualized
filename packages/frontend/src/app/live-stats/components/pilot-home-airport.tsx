@@ -14,7 +14,7 @@ export const PilotHomeAirport: FC<Props> = ({rawData}) => {
   });
   
   return (
-    <BarChart types={types} title="Pilot home pilot" description="Reported by pilots when connecting to the network" topNToShow={10} xAxisLabel="Home airport (Top 10, ICAO code)" yAxisLabel="# of pilots" />
+    <BarChart types={types} title="Pilot home airport" description="Reported by pilots when connecting to the network" topNToShow={10} xAxisLabel="Home airport (Top 10, ICAO code)" yAxisLabel="# of pilots" />
   );
 };
 

@@ -3,11 +3,14 @@ import { mapStyle } from '@/consts/map-style';
 import { useVatsimData } from '@/hooks/vatsim-data';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isGeoJsonSource, VatsimDataFeed } from './types';
 import { LastUpdateIndicator } from '@/components/last-update-indicator';
+import { Filters as FiltersType } from '@/components/filters/types';
+import { Filters } from '@/components/filters';
+import { filterPilot } from '@/utils';
 
-const calculateMapData = (rawData: VatsimDataFeed | undefined): GeoJSON.GeoJSON => {
+const calculateMapData = (rawData: VatsimDataFeed | undefined, filters: FiltersType): GeoJSON.GeoJSON => {
   if (!rawData) {
     return {
       type: 'FeatureCollection',
@@ -26,6 +29,7 @@ const calculateMapData = (rawData: VatsimDataFeed | undefined): GeoJSON.GeoJSON 
       properties: {
         heading: pilot.heading,
         callsign: pilot.callsign,
+        filter: filterPilot(rawData, pilot, filters),
       }
     })),
   }
@@ -35,9 +39,12 @@ const Home = () => {
   const rawData = useVatsimData();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
+  const [filters, setFilters] = useState<FiltersType>({});
 
   const rawDataRef = useRef<VatsimDataFeed | undefined>(rawData); // just for the first time
   useEffect(() => {rawDataRef.current = rawData}, [rawData]);
+  const filtersRef = useRef<FiltersType>(filters);
+  useEffect(() => {filtersRef.current = filters}, [filters]);
 
   useEffect(() => {
     if (map.current || !mapContainer.current) {
@@ -69,11 +76,13 @@ const Home = () => {
         return;
       }
 
-      const image = await map.current.loadImage(`${window.location.origin}/plane.png`);
-      map.current.addImage('plane', image.data);
+      const planeImage = await map.current.loadImage(`${window.location.origin}/plane.png`);
+      map.current.addImage('plane', planeImage.data);
+      const planeFadedImage = await map.current.loadImage(`${window.location.origin}/plane-faded.png`);
+      map.current.addImage('plane-faded', planeFadedImage.data);
       map.current.addSource('aircraft',  {
         type: 'geojson',
-        data: calculateMapData(rawDataRef.current),
+        data: calculateMapData(rawDataRef.current, filtersRef.current),
       });
       map.current.addLayer({
         id: 'aircraft',
@@ -81,7 +90,8 @@ const Home = () => {
         source: 'aircraft',
         layout: {
           'icon-allow-overlap': true,
-          'icon-image': 'plane',
+          'symbol-sort-key': ['case', ['get', 'filter'], 1, 0],
+          'icon-image': ['case', ['get', 'filter'], 'plane', 'plane-faded'],
           'icon-size': [
             'interpolate',
             ['linear'],
@@ -92,7 +102,7 @@ const Home = () => {
             0.3
           ],
           'icon-rotate': ['get', 'heading'],
-          'text-field': ['get', 'callsign'],
+          'text-field': ['case', ['get', 'filter'], ['get', 'callsign'], ' '],
           'text-font': ['Noto Sans Regular'],
           'text-optional': true,
           'text-anchor': 'top',
@@ -142,13 +152,18 @@ const Home = () => {
     if (!isGeoJsonSource(source)) {
       return;
     }
-    source.setData(calculateMapData(rawData));
+    source.setData(calculateMapData(rawData, filters));
     // console.log(map.current.getCanvas().toDataURL());
-  }, [rawData]);
+  }, [rawData, filters]);
 
   return (
-    <main className="font-[family-name:var(--font-geist-sans)] relative">
+    <main className="relative">
       <div ref={mapContainer} className="w-full h-[calc(100vh-52px-28px)]"></div>
+      {rawData ? (
+        <div className="absolute top-0 left-0 p-2 bg-white rounded-br-md">
+          <Filters vatsimData={rawData} filters={filters} setFilters={setFilters} />
+        </div>
+      ) : null}
       <div className={"absolute top-0 right-0 py-1 px-2 bg-white rounded-bl-md"}>
         <LastUpdateIndicator rawData={rawData} />
       </div>

@@ -8,10 +8,10 @@ interface Props {
 }
 
 export const AircraftType: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.flight_plan?.aircraft_short || 'Unknown')
+  const types = rawData.pilots.map((pilot) => pilot.custom.aircraftType);
 
   return (
-    <PieChart types={types} title="Aircraft types" description="Based on the aircraft ICAO code reported by pilots" topNToShow={9} />
+    <PieChart types={types} title="Aircraft type" description="Based on the aircraft ICAO code reported by pilots" topNToShow={9} />
   );
 };
 
