@@ -158,15 +158,15 @@ const Home = () => {
 
   return (
     <main className="relative">
-      <div ref={mapContainer} className="w-full h-[calc(100vh-52px-28px)]"></div>
+      <div ref={mapContainer} className="w-full h-[calc(100dvh-52px-28px)] dark:[&_canvas]:invert"></div>
+      <div className={"absolute top-0 right-0 py-1 px-2 bg-white dark:bg-black rounded-bl-md"}>
+        <LastUpdateIndicator rawData={rawData} />
+      </div>
       {rawData ? (
-        <div className="absolute top-0 left-0 p-2 bg-white rounded-br-md">
+        <div className="absolute top-0 left-0 p-2 bg-white dark:bg-black rounded-br-md">
           <Filters vatsimData={rawData} filters={filters} setFilters={setFilters} />
         </div>
       ) : null}
-      <div className={"absolute top-0 right-0 py-1 px-2 bg-white rounded-bl-md"}>
-        <LastUpdateIndicator rawData={rawData} />
-      </div>
     </main>
   );
 }

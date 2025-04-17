@@ -103,7 +103,7 @@ export const Filters: FC<Props> = ({vatsimData, filters, setFilters}) => (
       <DropdownMenuTrigger asChild><Button variant="outline" size="sm"><Plus />Add filter</Button></DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {Object.entries(filterDefinitions).map(([key, filterDefinition]) => (
-          <DropdownMenuItem key={key} onSelect={(() => setFilters({...filters, [key]: []}))} disabled={!!filters[key as FilterKey]}>{filterDefinition.label}</DropdownMenuItem>
+          <DropdownMenuItem key={key} onSelect={(() => setFilters({...filters, [key]: []}))} disabled={!!filters[key as FilterKey]} className="cursor-pointer">{filterDefinition.label}</DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

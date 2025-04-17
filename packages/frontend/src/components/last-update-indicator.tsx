@@ -27,8 +27,12 @@ export const LastUpdateIndicator: FC<Props> = ({rawData}) => {
   }, [rawData]);
 
   return (
-    <div className={cx(["text-sm transition-colors duration-300", {'text-lime-600': updated}, {'text-lime-800': !updated}])}>
+    <div className={cx(["flex flex-row gap-2 items-center text-sm transition-colors duration-300", {'text-lime-600': updated}, {'text-lime-700': !updated}])}>
       Last updated: {rawData?.general?.update_timestamp ? new Date(rawData.general?.update_timestamp).toLocaleString() : 'Loading...'}
+      <span className="relative flex size-3 items-center justify-center">
+        <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-lime-700 opacity-75"></span>
+        <span className="relative inline-flex size-2 rounded-full bg-lime-700"></span>
+      </span>
     </div>
   )
 };
