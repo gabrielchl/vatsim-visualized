@@ -8,11 +8,7 @@ interface Props {
 }
 
 export const PilotRating: FC<Props> = ({rawData}) => {
-  const ratings = Object.fromEntries(rawData.pilot_ratings.map(({id, short_name}) => [id, short_name]));
-
-  const types = rawData.pilots.map(
-    (pilot) => ratings[pilot.pilot_rating]
-  );
+  const types = rawData.pilots.map((pilot) => pilot.custom.pilotRating);
   
   return (
     <PieChart types={types} title="Pilot rating" description="Ratings of all connected pilots" />

@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const PlanRoute: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.flight_plan?.departure && pilot.flight_plan?.arrival ? `${pilot.flight_plan?.departure}-${pilot.flight_plan?.arrival}` : undefined);
+  const types = rawData.pilots.map((pilot) => pilot.custom.planRoute);
   
   return (
     <BarChart

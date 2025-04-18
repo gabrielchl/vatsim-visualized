@@ -1,9 +1,10 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { CartesianGrid, Line, LineChart as LineChartRecharts, XAxis, YAxis } from "recharts"
 import dayjs from "dayjs";
+import { DataKey } from "recharts/types/util/types";
 
 type Row = {timestamp: number} & Record<string, number>;
 
@@ -19,13 +20,15 @@ type Props = {
 };
 
 
-export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, legend, secondYAxisLines, secondYAxisLabel, lineColorIndexes}) => {
+export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, secondYAxisLines, secondYAxisLabel, lineColorIndexes}) => {
   const keys = Object.keys(data.at(-1) || {});
   const index = keys.indexOf('timestamp');
   if (index > -1) {
     keys.splice(index, 1);
   }
   const chartConfig = Object.fromEntries(keys.map((key, i) => [key.replace(/[^A-Za-z0-9]/g, ""), {label: key, color: `var(--chart-${lineColorIndexes ? lineColorIndexes[key] : (i % 5) + 1})`}]));
+  const [hoveredLine, setHoveredLine] = useState<DataKey<any> | null>(null);
+  const [clickedLines, setClickedLines] = useState<DataKey<any>[]>([]);
 
   return (
     <Card className="flex flex-col relative shadow-none max-sm:border-none">
@@ -63,10 +66,30 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, lege
                 dot={false}
                 yAxisId={secondYAxisLines?.includes(key) ? 'second' : 'default'}
                 strokeDasharray={secondYAxisLines?.includes(key) ? '6 3' : undefined}
+                opacity={hoveredLine || clickedLines.length ? (key === hoveredLine || clickedLines.includes(key) ? 1 : 0.3) : 1}
               />
             ))}
             <ChartTooltip content={<ChartTooltipContent cursor={false} labelFormatter={(time) => dayjs(time).format('D MMM HH:mm')} />} />
-            {legend ? <ChartLegend content={<ChartLegendContent />} layout="vertical" verticalAlign="middle" align="right" /> : null}
+            {keys.length > 2 ? (
+              <ChartLegend
+                content={<ChartLegendContent />}
+                layout="vertical"
+                verticalAlign="middle"
+                align="right"
+                onClick={({dataKey}) => {
+                  if (!dataKey) return;
+                  setClickedLines(clickedLines.includes(dataKey) ? clickedLines.filter((line) => line !== dataKey) : [...clickedLines, dataKey])}
+                }
+                onMouseEnter={({dataKey}) => {
+                  if (!dataKey) return;
+                  setHoveredLine(dataKey);
+                }}
+                onMouseLeave={({dataKey}) => {
+                  if (!dataKey) return;
+                  setHoveredLine(null);
+                }}
+              />
+            ) : null}
           </LineChartRecharts>
         </ChartContainer>
       </CardContent>

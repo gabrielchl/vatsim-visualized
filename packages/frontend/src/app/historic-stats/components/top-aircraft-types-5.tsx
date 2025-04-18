@@ -20,7 +20,7 @@ export const TopAircraftTypes5: FC<Props> = ({rawData}) => {
   }
   
   return (
-    <LineChart data={data} title="Top aircraft types" description="Top 5 aircraft types on the network at a given time" yAxisLabel="# of connections" legend />
+    <LineChart data={data} title="Top aircraft types" description="Top 5 aircraft types on the network at a given time" yAxisLabel="# of connections" />
   );
 };
 

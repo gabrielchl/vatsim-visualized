@@ -257,8 +257,11 @@ function ChartLegendContent({
   verticalAlign = "bottom",
   nameKey,
   layout = 'horizontal',
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
 }: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign" | "layout"> & {
+  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign" | "layout" | "onClick" | "onMouseEnter" | "onMouseLeave"> & {
     hideIcon?: boolean
     nameKey?: string
   }) {
@@ -277,7 +280,7 @@ function ChartLegendContent({
         className
       )}
     >
-      {payload.map((item) => {
+      {payload.map((item, i) => {
         const key = `${nameKey || item.dataKey || "value"}`
         const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
@@ -285,8 +288,12 @@ function ChartLegendContent({
           <div
             key={item.value}
             className={cn(
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
+              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3",
+              {'cursor-pointer': !!onClick}
             )}
+            onClick={(event) => onClick?.(item, i, event)}
+            onMouseEnter={(event) => onMouseEnter?.(item, i, event)}
+            onMouseLeave={(event) => onMouseLeave?.(item, i, event)}
           >
             {itemConfig?.icon && !hideIcon ? (
               <itemConfig.icon />

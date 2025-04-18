@@ -14,10 +14,8 @@ export const flightRuleMapping: Record<string, string> = {
 };
 
 export const PlanFlightRule: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map(
-    (pilot) => flightRuleMapping[pilot.flight_plan?.flight_rules || '']
-  );
-  
+  const types = rawData.pilots.map((pilot) => pilot.custom.planFlightRule);
+
   return (
     <PieChart types={types} title="Flight rule" description="Reported by pilots in their flight plan, includes supervisors" />
   );

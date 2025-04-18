@@ -6,7 +6,7 @@ import { FC } from "react";
 import { Combobox } from "../combobox";
 import { notEmpty } from "@/utils";
 import { FilterKey, Filters as FiltersType } from "./types";
-import { designatorToEngineCount, designatorToEngineType, designatorToManufacturer } from "@/consts/aircraft-type-designators";
+import { designatorToEngineCount, designatorToEngineType, designatorToManufacturer, designatorToWakeTurbulenceCategory } from "@/consts/aircraft-type-designators";
 import { locationCodeToContinent, locationCodeToCountryName1, locationCodeToCountryName2, locationCodeToCountryName3 } from "@/consts/locations";
 import { flightRuleMapping } from "@/app/live-stats/components/plan-flight-rule";
 
@@ -29,6 +29,10 @@ export const filterDefinitions: Record<FilterKey, FilterDefinition> = {
   aircraftEngineCount: {
     label: 'Aircraft engine count',
     pilotFilterFunction: (pilot) => designatorToEngineCount[pilot.flight_plan?.aircraft_short || ''],
+  },
+  aircraftWakeTurbulenceCategory: {
+    label: 'Aircraft wake turbulence category',
+    pilotFilterFunction: (pilot) => designatorToWakeTurbulenceCategory[pilot.flight_plan?.aircraft_short || ''],
   },
   pilotHomeAirport: {
     label: 'Pilot home airport',

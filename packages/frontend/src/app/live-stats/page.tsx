@@ -66,7 +66,7 @@ const LiveStats = () => {
       <h2 className="px-6 pt-4 text-lg">Controllers</h2>
       <div className={gridClasses}>
         <Counter count={filteredData.controllers.length} title="Online controllers" description="Total number of connected controllers" />
-        <Counter count={filteredData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers, excluding inactive, suspected or observers" />
+        <Counter count={filteredData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers, excluding inactive, suspended or observers" />
         <ControllerRating rawData={filteredData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Flight plan</h2>
