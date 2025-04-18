@@ -15,7 +15,7 @@ const About = () => {
       <h2>What is this logo?</h2>
       <p>IDK, I just hand drew it in <StyledLink href="https://www.tldraw.com/">tldraw</StyledLink> and exported it as an SVG.</p>
       <h2>I would like to suggest some improvements / report a bug</h2>
-      <p>Please create an issue over at <StyledLink href="https://github.com/gabrielchl/vatsim-visualized/issues/new">GitHub</StyledLink> (remember to label your issue &quot;bug&quot; or &quot;enhancement"), thanks!</p>
+      <p>Please create an issue over at <StyledLink href="https://github.com/gabrielchl/vatsim-visualized/issues/new">GitHub</StyledLink> (remember to label your issue &quot;bug&quot; or &quot;enhancement&quot;), thanks!</p>
     </main>
   );
 }
