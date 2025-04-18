@@ -70,7 +70,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, lege
           </LineChartRecharts>
         </ChartContainer>
       </CardContent>
-      <div className="absolute bottom-3 right-4 text-gray-300 text-xs">vatsim-visualized.com</div>
+      <div className="absolute bottom-3 right-4 text-gray-300 dark:text-gray-700 text-xs">vatsim-visualized.com</div>
     </Card>
   );
 };

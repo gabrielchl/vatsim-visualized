@@ -91,7 +91,7 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
           config={chartConfig}
           className="mx-auto h-[450px] max-h-full max-w-full w-full"
         >
-          <BarChartRecharts accessibilityLayer data={chartData} {...props}>
+          <BarChartRecharts accessibilityLayer data={chartData} className="[&_.recharts-surface]:overflow-visible" {...props}>
             <ChartTooltip content={<ChartTooltipContent />} />
             <CartesianGrid vertical={false} />
             <XAxis dataKey="type" label={{value: xAxisLabel, position: 'bottom', offset: -7}} tickLine={false} axisLine={false} {...xAxisProps} />
@@ -102,7 +102,7 @@ export const BarChart: FC<Props> = ({types, title, description, topNToShow, incl
           </BarChartRecharts>
         </ChartContainer>
       </CardContent>
-      <div className="absolute bottom-3 right-4 text-gray-300 text-xs">vatsim-visualized.com</div>
+      <div className="absolute bottom-3 right-4 text-gray-300 dark:text-gray-700 text-xs">vatsim-visualized.com</div>
     </Card>
   );
 };

@@ -35,7 +35,7 @@ const LiveStats = () => {
   const gridClasses = 'grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(600px,1fr))] py-2 px-6 gap-2 max-sm:px-0';
 
   return (
-    <>
+    <main>
       <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between">
         <div>
           <h1 className="text-2xl">Live Stats</h1>
@@ -77,7 +77,7 @@ const LiveStats = () => {
         <PlanArrivalAirport rawData={filteredData} />
         <PlanFlightDistance rawData={filteredData} />
       </div>
-    </>
+    </main>
   )
 };
 

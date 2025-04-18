@@ -9,6 +9,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetTrigger, SheetContent, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { ThemeProvider } from "next-themes";
 import { ThemeSwitch } from "@/components/theme-switch";
+import { StyledLink } from "@/components/StyledLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ const links = [
   {href: '/', label: 'Map'},
   {href: '/live-stats', label: 'Live Stats'},
   {href: '/historic-stats', label: 'Historic Stats'},
+  {href: '/about', label: 'About'},
 ];
 
 export default function RootLayout({
@@ -83,7 +85,7 @@ export default function RootLayout({
           </div>
           {children}
           <div className="py-1 px-6 text-sm text-gray-500">
-            VATSIM Visualized by <a href="https://gabrielchl.dev/" className="text-blue-400 hover:underline">Gabriel Lee</a>, <a href="https://github.com/gabrielchl/vatsim-visualized" className="text-blue-400 hover:underline">Source code</a> :&#41;
+            VATSIM Visualized by <StyledLink href="https://gabrielchl.dev/">Gabriel Lee</StyledLink>, <StyledLink href="https://github.com/gabrielchl/vatsim-visualized">Source code</StyledLink> :&#41;
           </div>
         </ThemeProvider>
       </body>

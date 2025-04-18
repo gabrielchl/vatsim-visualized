@@ -35,7 +35,7 @@ const HistoricStats = () => {
   const gridClasses = 'grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(700px,1fr))] py-2 px-6 gap-2';
 
   return (
-    <>
+    <main>
       <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between">
         <div>
           <h1 className="text-2xl">Historic Stats</h1>
@@ -53,7 +53,7 @@ const HistoricStats = () => {
         <TopAircraftTypes rawData={rawData} />
         <TopAircraftTypes5 rawData={rawData} />
       </div>
-    </>
+    </main>
   )
 };
 

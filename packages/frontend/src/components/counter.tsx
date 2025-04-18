@@ -18,7 +18,7 @@ export const Counter: FC<Props> = ({count, title, description}) => {
       <CardContent className="flex-1 px-0 pb-0 flex items-center justify-center text-5xl my-6">
         {Intl.NumberFormat().format(count)}
       </CardContent>
-      <div className="absolute bottom-3 right-4 text-gray-300 text-xs">vatsim-visualized.com</div>
+      <div className="absolute bottom-3 right-4 text-gray-300 dark:text-gray-700 text-xs">vatsim-visualized.com</div>
     </Card>
   );
 };
