@@ -37,12 +37,10 @@ export const Combobox: React.FC<Props> = ({options, values, setValues}) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] justify-between gap-0.5"
           size="sm"
         >
-          {values.length
-            ? values.join(", ")
-            : "Select option..."}
+          <span className="min-w-0 overflow-hidden overflow-ellipsis">{values.length ? values.join(", ") : "Select option..."}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
