@@ -9,10 +9,10 @@ interface Props {
 
 export const AircraftEngineCount: FC<Props> = ({rawData}) => {
   const types = rawData.pilots.map((pilot) => pilot.custom.aircraftEngineCount);
-  
-    return (
-      <PieChart types={types} title="Aircraft engine count" description="Based on DOC8643 from ICAO" />
-    );
+
+  return (
+    <PieChart types={types} title="Aircraft engine count" description="Based on DOC8643 from ICAO" />
+  );
 };
 
 export default AircraftEngineCount;

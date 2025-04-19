@@ -21,6 +21,7 @@ import { Filters } from "@/components/filters";
 import { Filters as FiltersType } from "@/components/filters/types";
 import { useState } from "react";
 import { filterVatsimData } from "@/utils";
+import ControllerFacility from "./components/controller-facility";
 
 const LiveStats = () => {
   const rawData = useVatsimData();
@@ -36,7 +37,7 @@ const LiveStats = () => {
 
   return (
     <main>
-      <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between">
+      <div className="px-6 pt-2 flex gap-2 flex-col md:flex-row justify-between items-start">
         <div>
           <h1 className="text-2xl">Live Stats</h1>
           <p>The data on this page automatically refreshes every 16 seconds.</p>
@@ -66,8 +67,9 @@ const LiveStats = () => {
       <h2 className="px-6 pt-4 text-lg">Controllers</h2>
       <div className={gridClasses}>
         <Counter count={filteredData.controllers.length} title="Online controllers" description="Total number of connected controllers" />
-        <Counter count={filteredData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers, excluding inactive, suspended or observers" />
+        <Counter count={filteredData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers (excluding inactive, suspended or observers)" />
         <ControllerRating rawData={filteredData} />
+        <ControllerFacility rawData={filteredData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Flight plan</h2>
       <div className={gridClasses}>

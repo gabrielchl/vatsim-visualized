@@ -9,7 +9,7 @@ interface Props {
 
 export const PlanArrivalAirport: FC<Props> = ({rawData}) => {
   const types = rawData.pilots.map((pilot) => pilot.custom.planArrivalAirport);
-  
+
   return (
     <BarChart types={types} title="Arrival airport" description="Reported by pilots in their flight plan" topNToShow={10} xAxisLabel="Arrival airport (ICAO code)" yAxisLabel="# of flights" />
   );

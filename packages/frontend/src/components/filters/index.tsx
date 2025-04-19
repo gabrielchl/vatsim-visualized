@@ -1,6 +1,6 @@
 import { VatsimDataFeed, VatsimDataFeedOriginal } from "@/app/types"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { FC } from "react";
 import { Combobox } from "../combobox";
@@ -100,7 +100,10 @@ export const Filters: FC<Props> = ({vatsimData, filters, setFilters}) => (
     {Object.entries(filters).map(([key, values]) => (
       <div className="flex flex-row gap-1 items-center" key={key}>
         <span className="text-sm">{filterDefinitions[key as FilterKey].label}</span>
-        <Combobox options={[...new Set(vatsimData.pilots.map((pilot) => pilot.custom[key as FilterKey]))].filter(notEmpty)} values={values as string[]} setValues={(newValues) => {setFilters({...filters, [key]: newValues})}} />
+        <div className="flex flex-row gap-0.5 items-center">
+          <Combobox options={[...new Set(vatsimData.pilots.map((pilot) => pilot.custom[key as FilterKey]))].filter(notEmpty)} values={values as string[]} setValues={(newValues) => {setFilters({...filters, [key]: newValues})}} />
+          <Button variant="ghost" size="icon" onClick={() => setFilters(Object.fromEntries(Object.entries(filters).filter(([k]) => k !== key)))} className="size-6"><X /></Button>
+        </div>
       </div>
     ))}
     <DropdownMenu>

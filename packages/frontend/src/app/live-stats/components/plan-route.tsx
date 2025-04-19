@@ -9,7 +9,7 @@ interface Props {
 
 export const PlanRoute: FC<Props> = ({rawData}) => {
   const types = rawData.pilots.map((pilot) => pilot.custom.planRoute);
-  
+
   return (
     <BarChart
       types={types}

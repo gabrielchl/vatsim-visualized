@@ -9,10 +9,10 @@ interface Props {
 
 export const AircraftManufacturer: FC<Props> = ({rawData}) => {
   const types = rawData.pilots.map((pilot) => pilot.custom.aircraftManufacturer);
-  
-    return (
-      <PieChart types={types} title="Aircraft manufacturer" description="Based on DOC8643 from ICAO" topNToShow={4} />
-    );
+
+  return (
+    <PieChart types={types} title="Aircraft manufacturer" description="Based on DOC8643 from ICAO" topNToShow={4} />
+  );
 };
 
 export default AircraftManufacturer;

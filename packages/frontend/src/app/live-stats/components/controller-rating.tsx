@@ -13,9 +13,9 @@ export const ControllerRating: FC<Props> = ({rawData}) => {
   const types = rawData.controllers.map(
     (controller) => ratings[controller.rating]
   );
-  
+
   return (
-    <PieChart types={types} title="Controller ratings" description="Ratings of all connected controllers (including observers)" />
+    <PieChart types={types} title="Controller rating" description="Ratings of all connected controllers (including observers)" />
   );
 };
 

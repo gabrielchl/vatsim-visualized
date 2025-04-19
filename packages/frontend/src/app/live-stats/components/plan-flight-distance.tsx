@@ -41,7 +41,7 @@ export const PlanFlightDistance: FC<Props> = ({rawData}) => {
       }
     }
   );
-  
+
   return (
     <BarChart
       types={types}

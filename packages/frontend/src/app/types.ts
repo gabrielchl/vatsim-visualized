@@ -55,6 +55,11 @@ export type VatsimDataFeedOriginal = {
     last_updated: string; // TODO: confirm type
     logon_time: string; // TODO: confrim type
   }[];
+  facilities: {
+    id: number;
+    short: string;
+    long: string;
+  }[];
   ratings: {
     id: number;
     short: string;

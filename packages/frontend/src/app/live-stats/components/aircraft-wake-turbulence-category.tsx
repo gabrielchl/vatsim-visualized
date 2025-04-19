@@ -9,10 +9,10 @@ interface Props {
 
 export const AircraftWakeTurbulenceCategory: FC<Props> = ({rawData}) => {
   const types = rawData.pilots.map((pilot) => pilot.custom.aircraftWakeTurbulenceCategory);
-  
-    return (
-      <PieChart types={types} title="Aircraft wake turbulence category" description="Based on DOC8643 from ICAO" />
-    );
+
+  return (
+    <PieChart types={types} title="Aircraft wake turbulence category" description="Based on DOC8643 from ICAO" />
+  );
 };
 
 export default AircraftWakeTurbulenceCategory;
