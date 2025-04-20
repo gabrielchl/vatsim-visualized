@@ -232,7 +232,7 @@ export const locationCodeToContinent: Record<string, string> = {
   D: 'Africa',
   E: 'Europe',
   F: 'Africa',
-  G: 'Afirca',
+  G: 'Africa',
   H: 'Africa',
   J: 'Mars',
   K: 'North America',
