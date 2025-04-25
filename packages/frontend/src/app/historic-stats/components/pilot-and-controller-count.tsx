@@ -6,12 +6,12 @@ import { notEmpty } from "@/utils";
 
 
 interface Props {
-  rawData: HistoricData;
+  data: HistoricData;
 }
 
-export const PilotAndControllerCount: FC<Props> = ({rawData}) => {
-  const indexedControllerCount = Object.fromEntries(rawData.controller_count.map(({timestamp, details}) => [timestamp, details]));
-  const data = rawData.pilot_count.map((row) => {
+export const PilotAndControllerCount: FC<Props> = ({data}) => {
+  const indexedControllerCount = Object.fromEntries(data.controller_count.map(({timestamp, details}) => [timestamp, details]));
+  const chartData = data.pilot_count.map((row) => {
     const controllerCount = indexedControllerCount[row.timestamp];
     if (!controllerCount) {
       return undefined;
@@ -26,7 +26,7 @@ export const PilotAndControllerCount: FC<Props> = ({rawData}) => {
 
   return (
     <LineChart
-      data={data}
+      data={chartData}
       title="Pilot and controller count"
       description="Number of pilots and controllers on the network at a given time, as well as the ratio between them"
       yAxisLabel="Count"

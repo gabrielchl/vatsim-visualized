@@ -6,11 +6,11 @@ import {distance, point} from '@turf/turf';
 import BarChart from "@/components/charts/bar-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const PlanFlightDistance: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map(
+export const PlanFlightDistance: FC<Props> = ({data}) => {
+  const types = data.pilots.map(
     (pilot) => {
       if (!pilot.flight_plan) return undefined;
       const from = airportCodeToDetails[pilot.flight_plan.departure];

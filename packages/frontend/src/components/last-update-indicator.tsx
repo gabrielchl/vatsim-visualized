@@ -3,19 +3,20 @@ import { cx } from "class-variance-authority";
 import { FC, useEffect, useRef, useState } from "react";
 
 interface Props {
-  rawData?: VatsimDataFeed;
+  data?: VatsimDataFeed;
+  isHistoricData?: boolean;
 }
 
-export const LastUpdateIndicator: FC<Props> = ({rawData}) => {
+export const LastUpdateIndicator: FC<Props> = ({data, isHistoricData}) => {
   const lastUpdate = useRef('');
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
-    if (!rawData?.general?.update_timestamp) {
+    if (!data?.general?.update_timestamp) {
       return;
     }
 
-    const newTimestamp = rawData.general.update_timestamp;
+    const newTimestamp = data.general.update_timestamp;
     if (newTimestamp !== lastUpdate.current) {
       lastUpdate.current = newTimestamp;
       setUpdated(true);
@@ -24,14 +25,14 @@ export const LastUpdateIndicator: FC<Props> = ({rawData}) => {
         setUpdated(false);
       }, 300);
     }
-  }, [rawData]);
+  }, [data]);
 
   return (
-    <div className={cx(["flex flex-row gap-2 items-center text-sm transition-colors duration-300", {'text-lime-600': updated}, {'text-lime-700': !updated}])}>
-      Last updated: {rawData?.general?.update_timestamp ? new Date(rawData.general?.update_timestamp).toLocaleString() : 'Loading...'}
+    <div className={cx(["flex flex-row gap-2 items-center text-sm transition-colors duration-300", isHistoricData ? 'text-gray-700 dark:text-gray-400' : (updated ? 'text-lime-600' : 'text-lime-700')])}>
+      {isHistoricData ? 'Historic data' : 'Last updated'}: {data?.general?.update_timestamp ? new Date(data.general?.update_timestamp).toLocaleString() : 'Loading...'}
       <span className="relative flex size-3 items-center justify-center">
-        <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-lime-700 opacity-75"></span>
-        <span className="relative inline-flex size-2 rounded-full bg-lime-700"></span>
+        {isHistoricData ? null : <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-lime-700 opacity-75"></span>}
+        <span className={cx(["relative inline-flex size-2 rounded-full", isHistoricData ? 'bg-gray-700 dark:bg-gray-400' : 'bg-lime-700'])}></span>
       </span>
     </div>
   )

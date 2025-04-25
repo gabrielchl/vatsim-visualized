@@ -4,14 +4,14 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const PilotHomeAirportContinent: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.custom.pilotHomeAirportContinent);
+export const PilotHomeAirportContinent: FC<Props> = ({data}) => {
+  const types = data.pilots.map((pilot) => pilot.custom.pilotHomeAirportContinent);
 
   return (
-    <PieChart types={types} title="Pilot home continent" description="Reported by pilots when connecting to the network" topNToShow={4} />
+    <PieChart types={types} title="Pilot home continent" description="Reported by pilots when connecting to the network" topNToShow={9} />
   );
 };
 

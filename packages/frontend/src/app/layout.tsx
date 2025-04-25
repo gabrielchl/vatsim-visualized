@@ -9,7 +9,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetTrigger, SheetContent, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { ThemeProvider } from "next-themes";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { StyledLink } from "@/components/StyledLink";
+import { StyledLink } from "@/components/styled-link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

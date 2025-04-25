@@ -4,11 +4,11 @@ import { VatsimDataFeed } from "../../types";
 import BarChart from "@/components/charts/bar-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const PlanRoute: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.custom.planRoute);
+export const PlanRoute: FC<Props> = ({data}) => {
+  const types = data.pilots.map((pilot) => pilot.custom.planRoute);
 
   return (
     <BarChart

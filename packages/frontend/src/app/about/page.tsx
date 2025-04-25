@@ -1,6 +1,6 @@
 "use client";
 
-import { StyledLink } from "@/components/StyledLink";
+import { StyledLink } from "@/components/styled-link";
 
 const About = () => {
   return (

@@ -22,16 +22,17 @@ import { Filters as FiltersType } from "@/components/filters/types";
 import { useState } from "react";
 import { filterVatsimData } from "@/utils";
 import ControllerFacility from "./components/controller-facility";
+import { HistoricDataSelector } from "@/components/historic-data-selector";
 
 const LiveStats = () => {
-  const rawData = useVatsimData();
+  const {data, isHistoricData, historicDataKeys, selectedHistoricDataKey, setSelectedHistoricDataKey} = useVatsimData();
   const [filters, setFilters] = useState<FiltersType>({});
 
-  if (!rawData) {
+  if (!data) {
     return null;
   }
 
-  const filteredData = filterVatsimData(rawData, filters);
+  const filteredData = filterVatsimData(data, filters);
 
   const gridClasses = 'grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(600px,1fr))] py-2 px-6 gap-2 max-sm:px-0';
 
@@ -43,41 +44,51 @@ const LiveStats = () => {
           <p>The data on this page automatically refreshes every 16 seconds.</p>
           <p>Viewing on desktop is encouraged given the density of the data.</p>
         </div>
-        <LastUpdateIndicator rawData={filteredData} />
+        <div className="flex flex-col gap-1 items-end">
+          <LastUpdateIndicator
+            data={data}
+            isHistoricData={isHistoricData}
+          />
+          <HistoricDataSelector
+            historicDataKeys={historicDataKeys}
+            selectedHistoricDataKey={selectedHistoricDataKey}
+            setSelectedHistoricDataKey={setSelectedHistoricDataKey}
+          />
+        </div>
       </div>
       <div className="px-6 pt-2">
-        <Filters vatsimData={rawData} filters={filters} setFilters={setFilters} />
+        <Filters vatsimData={data} filters={filters} setFilters={setFilters} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Aircraft</h2>
       <div className={gridClasses}>
-        <AircraftType rawData={filteredData} />
-        <AircraftManufacturer rawData={filteredData} />
-        <AircraftEngineType rawData={filteredData} />
-        <AircraftEngineCount rawData={filteredData} />
-        <AircraftWakeTurbulenceCategory rawData={filteredData} />
+        <AircraftType data={filteredData} />
+        <AircraftManufacturer data={filteredData} />
+        <AircraftEngineType data={filteredData} />
+        <AircraftEngineCount data={filteredData} />
+        <AircraftWakeTurbulenceCategory data={filteredData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Pilots</h2>
       <div className={gridClasses}>
         <Counter count={filteredData.pilots.length} title="Online pilots" description="Total number of connected pilots" />
-        <PilotHomeAirport rawData={filteredData} />
-        <PilotHomeAirportCountry rawData={filteredData} />
-        <PilotHomeAirportContinent rawData={filteredData} />
-        <PilotRating rawData={filteredData} />
+        <PilotHomeAirport data={filteredData} />
+        <PilotHomeAirportCountry data={filteredData} />
+        <PilotHomeAirportContinent data={filteredData} />
+        <PilotRating data={filteredData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Controllers</h2>
       <div className={gridClasses}>
         <Counter count={filteredData.controllers.length} title="Online controllers" description="Total number of connected controllers" />
         <Counter count={filteredData.controllers.filter((controller) => controller.rating > 1).length} title="Online controllers (C1 or above)" description="Total number of connected controllers (excluding inactive, suspended or observers)" />
-        <ControllerRating rawData={filteredData} />
-        <ControllerFacility rawData={filteredData} />
+        <ControllerRating data={filteredData} />
+        <ControllerFacility data={filteredData} />
       </div>
       <h2 className="px-6 pt-4 text-lg">Flight plan</h2>
       <div className={gridClasses}>
-        <PlanFlightRule rawData={filteredData} />
-        <PlanRoute rawData={filteredData} />
-        <PlanDepartureAirport rawData={filteredData} />
-        <PlanArrivalAirport rawData={filteredData} />
-        <PlanFlightDistance rawData={filteredData} />
+        <PlanFlightRule data={filteredData} />
+        <PlanRoute data={filteredData} />
+        <PlanDepartureAirport data={filteredData} />
+        <PlanArrivalAirport data={filteredData} />
+        <PlanFlightDistance data={filteredData} />
       </div>
     </main>
   )

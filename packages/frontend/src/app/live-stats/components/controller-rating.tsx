@@ -4,13 +4,13 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const ControllerRating: FC<Props> = ({rawData}) => {
-  const ratings = Object.fromEntries(rawData.ratings.map(({id, short}) => [id, short]));
+export const ControllerRating: FC<Props> = ({data}) => {
+  const ratings = Object.fromEntries(data.ratings.map(({id, short}) => [id, short]));
 
-  const types = rawData.controllers.map(
+  const types = data.controllers.map(
     (controller) => ratings[controller.rating]
   );
 

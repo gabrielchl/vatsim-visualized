@@ -9,9 +9,10 @@ import { LastUpdateIndicator } from '@/components/last-update-indicator';
 import { Filters as FiltersType } from '@/components/filters/types';
 import { Filters } from '@/components/filters';
 import { filterPilot } from '@/utils';
+import { HistoricDataSelector } from '@/components/historic-data-selector';
 
-const calculateMapData = (rawData: VatsimDataFeed | undefined, filters: FiltersType): GeoJSON.GeoJSON => {
-  if (!rawData) {
+const calculateMapData = (data: VatsimDataFeed | undefined, filters: FiltersType): GeoJSON.GeoJSON => {
+  if (!data) {
     return {
       type: 'FeatureCollection',
       features: [],
@@ -20,7 +21,7 @@ const calculateMapData = (rawData: VatsimDataFeed | undefined, filters: FiltersT
 
   return {
     type: "FeatureCollection",
-    features: rawData.pilots.map((pilot) => ({
+    features: data.pilots.map((pilot) => ({
       type: 'Feature',
       geometry: {
         type: 'Point',
@@ -29,20 +30,20 @@ const calculateMapData = (rawData: VatsimDataFeed | undefined, filters: FiltersT
       properties: {
         heading: pilot.heading,
         callsign: pilot.callsign,
-        filter: filterPilot(rawData, pilot, filters),
+        filter: filterPilot(data, pilot, filters),
       }
     })),
   }
 };
 
 const Home = () => {
-  const rawData = useVatsimData();
+  const {data, isHistoricData, historicDataKeys, selectedHistoricDataKey, setSelectedHistoricDataKey} = useVatsimData();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const [filters, setFilters] = useState<FiltersType>({});
 
-  const rawDataRef = useRef<VatsimDataFeed | undefined>(rawData); // just for the first time
-  useEffect(() => {rawDataRef.current = rawData}, [rawData]);
+  const dataRef = useRef<VatsimDataFeed | undefined>(data); // just for the first time
+  useEffect(() => {dataRef.current = data}, [data]);
   const filtersRef = useRef<FiltersType>(filters);
   useEffect(() => {filtersRef.current = filters}, [filters]);
 
@@ -82,7 +83,7 @@ const Home = () => {
       map.current.addImage('plane-faded', planeFadedImage.data);
       map.current.addSource('aircraft',  {
         type: 'geojson',
-        data: calculateMapData(rawDataRef.current, filtersRef.current),
+        data: calculateMapData(dataRef.current, filtersRef.current),
       });
       map.current.addLayer({
         id: 'aircraft',
@@ -144,7 +145,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!rawData || !map.current) {
+    if (!data || !map.current) {
       return;
     }
 
@@ -152,19 +153,26 @@ const Home = () => {
     if (!isGeoJsonSource(source)) {
       return;
     }
-    source.setData(calculateMapData(rawData, filters));
-    // console.log(map.current.getCanvas().toDataURL());
-  }, [rawData, filters]);
+    source.setData(calculateMapData(data, filters));
+  }, [data, filters]);
 
   return (
     <main className="relative">
       <div ref={mapContainer} className="w-full h-[calc(100dvh-52px-28px)] dark:[&_canvas]:invert"></div>
-      <div className={"absolute top-0 right-0 py-1 px-2 bg-white dark:bg-black rounded-bl-md"}>
-        <LastUpdateIndicator rawData={rawData} />
+      <div className={"absolute top-0 right-0 py-1 px-2 bg-white dark:bg-black rounded-bl-md flex flex-col gap-1 items-end"}>
+        <LastUpdateIndicator
+          data={data}
+          isHistoricData={isHistoricData}
+        />
+        <HistoricDataSelector
+          historicDataKeys={historicDataKeys}
+          selectedHistoricDataKey={selectedHistoricDataKey}
+          setSelectedHistoricDataKey={setSelectedHistoricDataKey}
+        />
       </div>
-      {rawData ? (
+      {data ? (
         <div className="absolute top-0 left-0 p-2 bg-white dark:bg-black rounded-br-md">
-          <Filters vatsimData={rawData} filters={filters} setFilters={setFilters} />
+          <Filters vatsimData={data} filters={filters} setFilters={setFilters} />
         </div>
       ) : null}
     </main>

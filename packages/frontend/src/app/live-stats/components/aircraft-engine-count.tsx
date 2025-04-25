@@ -4,11 +4,11 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const AircraftEngineCount: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.custom.aircraftEngineCount);
+export const AircraftEngineCount: FC<Props> = ({data}) => {
+  const types = data.pilots.map((pilot) => pilot.custom.aircraftEngineCount);
 
   return (
     <PieChart types={types} title="Aircraft engine count" description="Based on DOC8643 from ICAO" />

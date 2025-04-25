@@ -4,11 +4,11 @@ import { HistoricData } from "../../types";
 import LineChart from "@/components/charts/line-chart";
 
 interface Props {
-  rawData: HistoricData;
+  data: HistoricData;
 }
 
-export const ControllerCount: FC<Props> = ({rawData}) => {
-  const data = rawData.controller_count.map(
+export const ControllerCount: FC<Props> = ({data}) => {
+  const chartData = data.controller_count.map(
     (row) => ({
       timestamp: row.timestamp,
       count: Number(row.details),
@@ -16,7 +16,7 @@ export const ControllerCount: FC<Props> = ({rawData}) => {
   );
   
   return (
-    <LineChart data={data} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" lineColorIndexes={{count: 3}} />
+    <LineChart data={chartData} title="Controller count" description="Number of controllers on the network at a given time (excl. observers)" yAxisLabel="# of controllers" lineColorIndexes={{count: 3}} />
   );
 };
 

@@ -5,6 +5,7 @@ import { Moon, Sun } from "lucide-react";
 
 export const ThemeSwitch = () => {
   const { resolvedTheme, setTheme } = useTheme();
+
   return (
     <Button variant="outline" size="icon" onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}>{resolvedTheme === 'light' ? <Moon /> : <Sun />}</Button>
   );

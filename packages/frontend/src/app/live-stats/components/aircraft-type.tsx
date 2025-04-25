@@ -4,11 +4,11 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const AircraftType: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.custom.aircraftType);
+export const AircraftType: FC<Props> = ({data}) => {
+  const types = data.pilots.map((pilot) => pilot.custom.aircraftType);
 
   return (
     <PieChart types={types} title="Aircraft type" description="Based on the aircraft ICAO code reported by pilots" topNToShow={9} />

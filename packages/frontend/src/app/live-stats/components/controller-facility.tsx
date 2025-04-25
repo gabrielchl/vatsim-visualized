@@ -4,13 +4,13 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
-export const ControllerFacility: FC<Props> = ({rawData}) => {
-  const facilities = Object.fromEntries(rawData.facilities.map(({id, short}) => [id, short]));
+export const ControllerFacility: FC<Props> = ({data}) => {
+  const facilities = Object.fromEntries(data.facilities.map(({id, short}) => [id, short]));
 
-  const types = rawData.controllers.map(
+  const types = data.controllers.map(
     (controller) => facilities[controller.facility]
   ).filter((type) => type !== 'OBS');
 

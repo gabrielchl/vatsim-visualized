@@ -4,7 +4,7 @@ import { VatsimDataFeed } from "../../types";
 import PieChart from "@/components/charts/pie-chart";
 
 interface Props {
-  rawData: VatsimDataFeed;
+  data: VatsimDataFeed;
 }
 
 export const flightRuleMapping: Record<string, string> = {
@@ -13,8 +13,8 @@ export const flightRuleMapping: Record<string, string> = {
   S: 'Supervisor',
 };
 
-export const PlanFlightRule: FC<Props> = ({rawData}) => {
-  const types = rawData.pilots.map((pilot) => pilot.custom.planFlightRule);
+export const PlanFlightRule: FC<Props> = ({data}) => {
+  const types = data.pilots.map((pilot) => pilot.custom.planFlightRule);
 
   return (
     <PieChart types={types} title="Flight rule" description="Reported by pilots in their flight plan, includes supervisors" />

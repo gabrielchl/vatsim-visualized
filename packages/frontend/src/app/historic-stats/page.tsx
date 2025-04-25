@@ -9,26 +9,26 @@ import TopAircraftTypes5 from "./components/top-aircraft-types-5";
 import PilotAndControllerCount from "./components/pilot-and-controller-count";
 
 const HistoricStats = () => {
-  const [rawData, setRawData] = useState<HistoricData | undefined>();
+  const [data, setData] = useState<HistoricData | undefined>();
   
   useEffect(() => {
     const fetchData = async () => {
       const fetched = await fetch('https://api.vatsim-visualized.com/get-historic-stats');
       const decoded = await fetched.json();
-      setRawData(decoded);
+      setData(decoded);
     };
     fetchData();
   }, []);
 
   const latestTimestamp = useMemo(() => {
-    if (!rawData) {
+    if (!data) {
       return undefined;
     }
 
-    return Math.max(...Object.keys(rawData).flatMap((key) => rawData[key].map((item) => item.timestamp)));
-  }, [rawData]);
+    return Math.max(...Object.keys(data).flatMap((key) => data[key].map((item) => item.timestamp)));
+  }, [data]);
 
-  if (!rawData) {
+  if (!data) {
     return null;
   }
 
@@ -47,11 +47,11 @@ const HistoricStats = () => {
         </div>
       </div>
       <div className={gridClasses}>
-        <PilotCount rawData={rawData} />
-        <ControllerCount rawData={rawData} />
-        <PilotAndControllerCount rawData={rawData} />
-        <TopAircraftTypes rawData={rawData} />
-        <TopAircraftTypes5 rawData={rawData} />
+        <PilotCount data={data} />
+        <ControllerCount data={data} />
+        <PilotAndControllerCount data={data} />
+        <TopAircraftTypes data={data} />
+        <TopAircraftTypes5 data={data} />
       </div>
     </main>
   )
