@@ -3,8 +3,9 @@ import { FC, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { CartesianGrid, Line, LineChart as LineChartRecharts, XAxis, YAxis } from "recharts"
-import dayjs from "dayjs";
 import { DataKey } from "recharts/types/util/types";
+import { useDayJs } from "@/hooks/use-day-js";
+import { MEDIUM_DATE_TIME_FORMAT } from "@/consts/dates";
 
 type Row = {timestamp: number} & Record<string, number>;
 
@@ -29,6 +30,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, seco
   const chartConfig = Object.fromEntries(keys.map((key, i) => [key.replace(/[^A-Za-z0-9]/g, ""), {label: key, color: `var(--chart-${lineColorIndexes ? lineColorIndexes[key] : (i % 5) + 1})`}]));
   const [hoveredLine, setHoveredLine] = useState<DataKey<any> | null>(null);
   const [clickedLines, setClickedLines] = useState<DataKey<any>[]>([]);
+  const dayjs = useDayJs();
 
   return (
     <Card className="flex flex-col relative shadow-none max-sm:border-none">
@@ -49,7 +51,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, seco
               tickLine={false}
               axisLine={false}
               domain={['dataMin', 'dataMax']}
-              tickFormatter={(time) => dayjs(time).format('D MMM HH:mm')}
+              tickFormatter={(time) => dayjs(time).format(MEDIUM_DATE_TIME_FORMAT)}
             />
             <YAxis label={{value: yAxisLabel, angle: -90, position: 'insideLeft'}} tickLine={false} axisLine={false} yAxisId="default" />
             {secondYAxisLines ? (
@@ -69,7 +71,7 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, seco
                 opacity={hoveredLine || clickedLines.length ? (key === hoveredLine || clickedLines.includes(key) ? 1 : 0.3) : 1}
               />
             ))}
-            <ChartTooltip content={<ChartTooltipContent cursor={false} labelFormatter={(time) => dayjs(time).format('D MMM HH:mm')} />} />
+            <ChartTooltip content={<ChartTooltipContent cursor={false} labelFormatter={(time) => dayjs(time).format(MEDIUM_DATE_TIME_FORMAT)} />} />
             {keys.length > 2 ? (
               <ChartLegend
                 content={<ChartLegendContent />}

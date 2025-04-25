@@ -1,6 +1,6 @@
 "use client";
 import { mapStyle } from '@/consts/map-style';
-import { useVatsimData } from '@/hooks/vatsim-data';
+import { useVatsimData } from '@/hooks/use-vatsim-data';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect, useRef, useState } from "react";

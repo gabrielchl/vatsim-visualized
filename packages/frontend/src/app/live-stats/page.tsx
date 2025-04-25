@@ -1,5 +1,5 @@
 "use client";
-import { useVatsimData } from "@/hooks/vatsim-data";
+import { useVatsimData } from "@/hooks/use-vatsim-data";
 import AircraftType from "./components/aircraft-type";
 import PilotHomeAirport from "./components/pilot-home-airport";
 import AircraftManufacturer from "./components/aircraft-manufacturer";

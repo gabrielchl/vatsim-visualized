@@ -7,9 +7,12 @@ import ControllerCount from "./components/controller-count";
 import TopAircraftTypes from "./components/top-aircraft-types";
 import TopAircraftTypes5 from "./components/top-aircraft-types-5";
 import PilotAndControllerCount from "./components/pilot-and-controller-count";
+import { useDayJs } from "@/hooks/use-day-js";
+import { LONG_DATE_TIME_FORMAT } from "@/consts/dates";
 
 const HistoricStats = () => {
   const [data, setData] = useState<HistoricData | undefined>();
+  const dayjs = useDayJs();
   
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +46,7 @@ const HistoricStats = () => {
           <p>Viewing on desktop is encouraged given the density of the data.</p>
         </div>
         <div className="text-sm">
-          Last updated: {latestTimestamp ? new Date(latestTimestamp).toLocaleString() : 'Loading...'}
+          Last updated: {latestTimestamp ? dayjs(latestTimestamp).format(LONG_DATE_TIME_FORMAT) : 'Loading...'}
         </div>
       </div>
       <div className={gridClasses}>

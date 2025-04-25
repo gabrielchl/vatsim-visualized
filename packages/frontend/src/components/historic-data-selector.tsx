@@ -2,7 +2,8 @@ import { FC } from "react";
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select';
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import dayjs from "dayjs";
+import { useDayJs } from "@/hooks/use-day-js";
+import { MEDIUM_DATE_TIME_FORMAT } from "@/consts/dates";
 
 interface Props {
   historicDataKeys: string[];
@@ -13,6 +14,7 @@ interface Props {
 export const HistoricDataSelector: FC<Props> = ({historicDataKeys, selectedHistoricDataKey, setSelectedHistoricDataKey}) => {
   const isFirst = selectedHistoricDataKey === historicDataKeys[0];
   const isLast = selectedHistoricDataKey === historicDataKeys[historicDataKeys.length - 1];
+  const dayjs = useDayJs();
 
   const onClickPrev = () => {
     if (isFirst || !selectedHistoricDataKey) {
@@ -45,7 +47,7 @@ export const HistoricDataSelector: FC<Props> = ({historicDataKeys, selectedHisto
         <SelectContent>
           {historicDataKeys.map((key) => (
             <SelectItem key={key} value={key} className="py-1 cursor-pointer">
-              {dayjs(key).format('DD MMM HH:mm')}
+              {dayjs(key).format(MEDIUM_DATE_TIME_FORMAT)}
             </SelectItem>
           ))}
         </SelectContent>

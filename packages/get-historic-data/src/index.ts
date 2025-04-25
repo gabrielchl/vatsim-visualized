@@ -34,7 +34,7 @@ export default {
 		const requestDate = new URLSearchParams(request.url.slice(paramsIndex + 1)).get('timestamp');
 
 		if (requestDate) {
-			const validTimestamp = new RegExp(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{7}Z$/).test(requestDate);
+			const validTimestamp = new RegExp(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,7})?Z$/).test(requestDate);
 
 			if (!validTimestamp) {
 				return Response.json({error: 'invalid timestamp format'}, {status: 400});
