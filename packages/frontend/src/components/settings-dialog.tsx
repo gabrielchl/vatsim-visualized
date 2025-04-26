@@ -16,7 +16,7 @@ import { SettingsContext } from "@/contexts/settings-context";
 
 export const SettingsDialog = () => {
   const { theme, setTheme, systemTheme } = useTheme();
-  const { timezone, setTimezone } = useContext(SettingsContext);
+  const { timezone, setTimezone, mapShowCallsign, setMapShowCallsign } = useContext(SettingsContext);
 
   return (
     <Dialog>
@@ -43,7 +43,14 @@ export const SettingsDialog = () => {
             Timezone
             <ToggleGroup type="single" value={timezone} onValueChange={setTimezone}>
               <ToggleGroupItem value="utc">UTC</ToggleGroupItem>
-              <ToggleGroupItem value="local"><span>Local time</span></ToggleGroupItem>
+              <ToggleGroupItem value="local">Local time</ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+          <div className="flex flex-row items-center justify-between gap-2">
+            Show callsigns on map
+            <ToggleGroup type="single" value={String(mapShowCallsign)} onValueChange={(val) => setMapShowCallsign?.(val === 'true')}>
+              <ToggleGroupItem value="false">Hide</ToggleGroupItem>
+              <ToggleGroupItem value="true">Show</ToggleGroupItem>
             </ToggleGroup>
           </div>
         </div>

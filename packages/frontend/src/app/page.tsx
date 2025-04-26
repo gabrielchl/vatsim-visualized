@@ -3,15 +3,16 @@ import { mapStyle } from '@/consts/map-style';
 import { useVatsimData } from '@/hooks/use-vatsim-data';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { isGeoJsonSource, VatsimDataFeed } from './types';
 import { LastUpdateIndicator } from '@/components/last-update-indicator';
 import { Filters as FiltersType } from '@/components/filters/types';
 import { Filters } from '@/components/filters';
 import { filterPilot } from '@/utils';
 import { HistoricDataSelector } from '@/components/historic-data-selector';
+import { SettingsContext } from '@/contexts/settings-context';
 
-const calculateMapData = (data: VatsimDataFeed | undefined, filters: FiltersType): GeoJSON.GeoJSON => {
+const calculateMapData = (data: VatsimDataFeed | undefined, filters: FiltersType, mapShowCallsign?: boolean): GeoJSON.GeoJSON => {
   if (!data) {
     return {
       type: 'FeatureCollection',
@@ -29,7 +30,7 @@ const calculateMapData = (data: VatsimDataFeed | undefined, filters: FiltersType
       },
       properties: {
         heading: pilot.heading,
-        callsign: pilot.callsign,
+        callsign: mapShowCallsign ? pilot.callsign : '',
         filter: filterPilot(data, pilot, filters),
       }
     })),
@@ -41,11 +42,14 @@ const Home = () => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const [filters, setFilters] = useState<FiltersType>({});
+  const { mapShowCallsign } = useContext(SettingsContext);
 
   const dataRef = useRef<VatsimDataFeed | undefined>(data); // just for the first time
   useEffect(() => {dataRef.current = data}, [data]);
   const filtersRef = useRef<FiltersType>(filters);
   useEffect(() => {filtersRef.current = filters}, [filters]);
+  const mapShowCallsignRef = useRef<boolean>(mapShowCallsign);
+  useEffect(() => {mapShowCallsignRef.current = mapShowCallsign}, [mapShowCallsign]);
 
   useEffect(() => {
     if (map.current || !mapContainer.current) {
@@ -83,7 +87,7 @@ const Home = () => {
       map.current.addImage('plane-faded', planeFadedImage.data);
       map.current.addSource('aircraft',  {
         type: 'geojson',
-        data: calculateMapData(dataRef.current, filtersRef.current),
+        data: calculateMapData(dataRef.current, filtersRef.current, mapShowCallsignRef.current),
       });
       map.current.addLayer({
         id: 'aircraft',
@@ -153,8 +157,8 @@ const Home = () => {
     if (!isGeoJsonSource(source)) {
       return;
     }
-    source.setData(calculateMapData(data, filters));
-  }, [data, filters]);
+    source.setData(calculateMapData(data, filters, mapShowCallsign));
+  }, [data, filters, mapShowCallsign]);
 
   return (
     <main className="relative">
