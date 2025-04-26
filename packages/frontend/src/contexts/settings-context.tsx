@@ -10,7 +10,7 @@ export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [timezone, setTimezone] = useState<'utc' | 'local'>('local');
   
   useEffect(() => {
-    const storedTimezone = localStorage.getItem('utc');
+    const storedTimezone = localStorage.getItem('timezone');
     if (storedTimezone === 'utc' || storedTimezone === 'local') {
       setTimezone(storedTimezone);
     }
