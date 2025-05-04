@@ -27,9 +27,6 @@ export default {
 		}
 
 		const date = new Date();
-		const yesterday = new Date(date);
-		yesterday.setDate(date.getDate() - 1);
-
 		const paramsIndex = request.url.indexOf('?');
 		const requestDate = new URLSearchParams(request.url.slice(paramsIndex + 1)).get('timestamp');
 
@@ -40,9 +37,11 @@ export default {
 				return Response.json({error: 'invalid timestamp format'}, {status: 400});
 			}
 
-			const within24h = new Date(requestDate).getTime() > yesterday.getTime();
+			const twoDaysAgo = new Date(date);
+			twoDaysAgo.setDate(date.getDate() - 2);
+			const within2Days = new Date(requestDate).getTime() > twoDaysAgo.getTime();
 			
-			if (!within24h) {
+			if (!within2Days) {
 				return Response.json({error: 'timestamp is more than 24 hour ago'}, {status: 400});
 			}
 
@@ -53,6 +52,9 @@ export default {
 			response.headers.set('Access-Control-Allow-Origin', origin);
 			return response;
 		} else {
+			const yesterday = new Date(date);
+			yesterday.setDate(date.getDate() - 1);
+
 			const prefixes = [yesterday.toISOString().split('T')[0], date.toISOString().split('T')[0]];
 
 			const results = await Promise.all(
