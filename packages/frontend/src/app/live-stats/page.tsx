@@ -44,7 +44,7 @@ const LiveStats = () => {
           <p>The data on this page automatically refreshes every 16 seconds.</p>
           <p>Viewing on desktop is encouraged given the density of the data.</p>
         </div>
-        <div className="flex flex-col gap-1 items-end">
+        <div className="flex flex-col gap-1 md:items-end">
           <LastUpdateIndicator
             data={data}
             isHistoricData={isHistoricData}

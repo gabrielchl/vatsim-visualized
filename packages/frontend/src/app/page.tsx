@@ -163,7 +163,7 @@ const Home = () => {
   return (
     <main className="relative">
       <div ref={mapContainer} className="w-full h-[calc(100dvh-52px-28px)] dark:[&_canvas]:invert"></div>
-      <div className={"absolute top-0 right-0 py-1 px-2 bg-white dark:bg-black rounded-bl-md flex flex-col gap-1 items-end"}>
+      <div className={"absolute top-0 right-0 p-2 bg-white dark:bg-black rounded-bl-md flex flex-col gap-1 items-end"}>
         <LastUpdateIndicator
           data={data}
           isHistoricData={isHistoricData}
