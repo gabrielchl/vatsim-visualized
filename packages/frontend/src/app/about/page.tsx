@@ -1,6 +1,9 @@
-"use client";
-
 import { StyledLink } from "@/components/styled-link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'About',
+};
 
 const About = () => {
   return (

@@ -23,8 +23,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VATSIM Visualized",
+  title: {
+    template: '%s | VATSIM Visualized',
+    default: 'VATSIM Visualized',
+  },
   description: "Visualize live and historic data from VATSIM",
+  openGraph: {
+    siteName: "VATSIM Visualized",
+  }
 };
 
 const links = [
