@@ -1,5 +1,5 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { CartesianGrid, Line, LineChart as LineChartRecharts, XAxis, YAxis } from "recharts"
@@ -18,15 +18,33 @@ type Props = {
   secondYAxisLines?: string[];
   secondYAxisLabel?: string;
   lineColorIndexes?: Record<string, number>;
+  lastNDays?: number;
+  showLastWeekLine?: boolean;
 };
 
 
-export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, secondYAxisLines, secondYAxisLabel, lineColorIndexes}) => {
-  const keys = Object.keys(data.at(-1) || {});
-  const index = keys.indexOf('timestamp');
-  if (index > -1) {
-    keys.splice(index, 1);
-  }
+export const LineChart: FC<Props> = ({data: originalData, title, description, yAxisLabel, secondYAxisLines, secondYAxisLabel, lineColorIndexes, lastNDays = 7, showLastWeekLine = false}) => {
+  const data = useMemo(() => {
+    const lastTimestamp = originalData.at(-1)?.timestamp || Date.now();
+    const thisWeeksData = originalData.filter((row) => row.timestamp >= (lastTimestamp - lastNDays * 24 * 60 * 60 * 1000));
+    if (!showLastWeekLine) {
+      return thisWeeksData;
+    }
+
+    const lastWeeksData = originalData.filter((row) => row.timestamp >= (lastTimestamp - (lastNDays + 7) * 24 * 60 * 60 * 1000) && row.timestamp < (lastTimestamp - 7 * 24 * 60 * 60 * 1000));
+
+    const dataMapped = Object.fromEntries(thisWeeksData.map((row) => [row.timestamp, row]));
+    const lastWeeksDataMapped = Object.fromEntries(lastWeeksData.map((row) => [row.timestamp + 7 * 24 * 60 * 60 * 1000, row]));
+
+    const mergedTimestamps = [...new Set([...Object.keys(dataMapped), ...Object.keys(lastWeeksDataMapped)])].toSorted();
+    return mergedTimestamps.map((timestamp) => ({
+      ...dataMapped[timestamp] || {},
+      ...lastWeeksDataMapped[timestamp] ? Object.fromEntries(Object.entries(lastWeeksDataMapped[timestamp]).filter(([key]) => key !== 'timestamp').map(([key, value]) => [`${key}LastWeek`, value])) : {},
+      timestamp: Number(timestamp),
+    }));
+  }, [originalData, lastNDays, showLastWeekLine]);
+
+  const keys = Array.from(new Set(data.flatMap((row) => Object.keys(row)).filter((key) => key !== 'timestamp')));
   const chartConfig = Object.fromEntries(keys.map((key, i) => [key.replace(/[^A-Za-z0-9]/g, ""), {label: key, color: `var(--chart-${lineColorIndexes ? lineColorIndexes[key] : (i % 5) + 1})`}]));
   const [hoveredLine, setHoveredLine] = useState<DataKey<any> | null>(null);
   const [clickedLines, setClickedLines] = useState<DataKey<any>[]>([]);
@@ -59,7 +77,8 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, seco
             ) : null}
             {keys.map((key) => key === 'timestamp' ? null : (
               <Line
-                key={key}
+                connectNulls={showLastWeekLine}
+                key={key.replace(/[^A-Za-z0-9]/g, "")}
                 dataKey={key}
                 type="natural"
                 isAnimationActive={false}
@@ -67,12 +86,12 @@ export const LineChart: FC<Props> = ({data, title, description, yAxisLabel, seco
                 strokeWidth={2}
                 dot={false}
                 yAxisId={secondYAxisLines?.includes(key) ? 'second' : 'default'}
-                strokeDasharray={secondYAxisLines?.includes(key) ? '6 3' : undefined}
-                opacity={hoveredLine || clickedLines.length ? (key === hoveredLine || clickedLines.includes(key) ? 1 : 0.3) : 1}
+                strokeDasharray={secondYAxisLines?.includes(key) || key.endsWith('LastWeek') ? '6 3' : undefined}
+                opacity={hoveredLine || clickedLines.length ? (key === hoveredLine || clickedLines.includes(key) ? 1 : 0.3) : (key.endsWith('LastWeek') ? 0.6 : 1)}
               />
             ))}
             <ChartTooltip content={<ChartTooltipContent cursor={false} labelFormatter={(time) => dayjs(time).format(MEDIUM_DATE_TIME_FORMAT)} />} />
-            {keys.length > 2 ? (
+            {keys.length > 1 ? (
               <ChartLegend
                 content={<ChartLegendContent />}
                 layout="vertical"

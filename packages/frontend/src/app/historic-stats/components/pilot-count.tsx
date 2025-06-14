@@ -11,12 +11,19 @@ export const PilotCount: FC<Props> = ({data}) => {
   const chartData = data.pilot_count.map(
     (row) => ({
       timestamp: row.timestamp,
-      count: Number(row.details),
+      Count: Number(row.details),
     })
   );
   
   return (
-    <LineChart data={chartData} title="Pilot count" description="Number of pilots on the network at a given time" yAxisLabel="# of pilots" />
+    <LineChart
+      data={chartData}
+      title="Pilot count"
+      description="Number of pilots on the network at a given time"
+      yAxisLabel="# of pilots"
+      lastNDays={7}
+      showLastWeekLine
+    />
   );
 };
 

@@ -34,9 +34,15 @@ export default {
 		}
 
 		const timeNow = Date.now();
-		const timeThen = timeNow - 1000 * 60 * 60 * 24 * 7; // one week ago
+		const defaultTimeLimit = timeNow - 1000 * 60 * 60 * 24 * 7; // one week ago
+		const timeLimits = {
+			pilot_count: timeNow - 1000 * 60 * 60 * 24 * 14,
+			controller_count: timeNow - 1000 * 60 * 60 * 24 * 14,
+		}
 
-		const statement = env.STATS.prepare("SELECT * FROM stats WHERE timestamp > ? ORDER BY timestamp ASC").bind(timeThen);
+		const statement = env.STATS.prepare(
+			`SELECT * FROM stats WHERE ${Object.entries(timeLimits).map(() => `(type = ? AND timestamp > ?)`).join(' OR ')} OR timestamp > ? ORDER BY timestamp ASC`
+		).bind(...Object.entries(timeLimits).flatMap(([type, timeLimit]) => [type, timeLimit]), defaultTimeLimit);
 		const result = await statement.run<Row>();
 
 		if (!result.success) {
