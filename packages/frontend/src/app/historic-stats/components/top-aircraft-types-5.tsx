@@ -8,16 +8,15 @@ interface Props {
 }
 
 export const TopAircraftTypes5: FC<Props> = ({data}) => {
+  const lastKeys = Object.keys(JSON.parse(data.top_aircraft_types.at(-1)?.details || '{}')).slice(0, 5);
   const chartData = data.top_aircraft_types.map(
     (row) => ({
       timestamp: row.timestamp,
-      ...JSON.parse(row.details),
+      ...Object.fromEntries(
+        Object.entries(JSON.parse(row.details)).filter(([key]) => lastKeys.includes(key))
+      )
     })
   );
-
-  if (chartData.length) {
-    chartData[chartData.length - 1] = Object.fromEntries(Object.entries(chartData[chartData.length - 1]).slice(0, 6));
-  }
   
   return (
     <LineChart data={chartData} title="Top aircraft types" description="Top 5 aircraft types on the network at a given time" yAxisLabel="# of connections" />
