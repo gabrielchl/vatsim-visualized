@@ -1,8 +1,8 @@
 "use client";
-import { FC, useMemo, useState } from "react";
+import { FC, PropsWithChildren, useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { CartesianGrid, Line, LineChart as LineChartRecharts, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Line, LineChart as LineChartRecharts, XAxis, YAxis } from "recharts";
 import { DataKey } from "recharts/types/util/types";
 import { useDayJs } from "@/hooks/use-day-js";
 import { MEDIUM_DATE_TIME_FORMAT } from "@/consts/dates";
@@ -23,7 +23,7 @@ type Props = {
 };
 
 
-export const LineChart: FC<Props> = ({data: originalData, title, description, yAxisLabel, secondYAxisLines, secondYAxisLabel, lineColorIndexes, lastNDays = 7, showLastWeekLine = false}) => {
+export const LineChart: FC<PropsWithChildren<Props>> = ({children, data: originalData, title, description, yAxisLabel, secondYAxisLines, secondYAxisLabel, lineColorIndexes, lastNDays = 7, showLastWeekLine = false}) => {
   const data = useMemo(() => {
     const lastTimestamp = originalData.at(-1)?.timestamp || Date.now();
     const thisWeeksData = originalData.filter((row) => row.timestamp >= (lastTimestamp - lastNDays * 24 * 60 * 60 * 1000));
@@ -75,6 +75,7 @@ export const LineChart: FC<Props> = ({data: originalData, title, description, yA
             {secondYAxisLines ? (
               <YAxis label={{value: secondYAxisLabel || 'count', angle: -90, position: 'insideRight'}} tickLine={false} axisLine={false} yAxisId="second" orientation="right" />
             ) : null}
+            {children}
             {keys.map((key) => key === 'timestamp' ? null : (
               <Line
                 connectNulls={showLastWeekLine}
