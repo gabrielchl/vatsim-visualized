@@ -1,7 +1,7 @@
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/client-s3";
 import fs from 'fs';
 
-const FROM_DATETIME = '2025-11-20T00:00:00.0000000Z.json'; // including this date, if it exists
+const FROM_DATETIME = '2025-11-24T00:00:00.0000000Z.json'; // including this date, if it exists
 const TO_DATETIME = '2025-11-30T23:59:59.0000000Z.json'; // including this date, if it exists
 
 type Pilot = { flight_plan?: { departure?: string; arrival?: string } };
@@ -69,6 +69,7 @@ const main = async () => {
 
   const rows: {timestamp: number, departure: number, arrival: number}[] = [];
   for (const filename of filenames) {
+    console.log(`${rows.length + 1}/${filenames.length}: Processing ${filename}...`);
     const getObject = await s3Client.send(new GetObjectCommand({
       Bucket: 'vatsim-visualized-raw-data',
       Key: filename,
@@ -91,9 +92,7 @@ const main = async () => {
     rows.push({timestamp: numeralTimestamp, departure: departureCount, arrival: arrivalCount});
   }
 
-  console.log(JSON.stringify(rows, null, 2));
-  // save rows to a JSON file
-  const path = 'output.json';
+  const path = 'data.json';
   fs.writeFileSync(path, JSON.stringify(rows, null));
   console.log(`Saved data to ${path}`);
 };
