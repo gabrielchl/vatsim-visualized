@@ -37,6 +37,7 @@ const links = [
   {href: '/', label: 'Map'},
   {href: '/live-stats', label: 'Live Stats'},
   {href: '/historic-stats', label: 'Historic Stats'},
+  {href: '/past-events', label: 'Past Events'},
   {href: '/about', label: 'About'},
 ];
 
