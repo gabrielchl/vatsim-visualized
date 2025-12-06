@@ -2,7 +2,7 @@ import { S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/clien
 import fs from 'fs';
 
 const FROM_DATETIME = '2025-11-24T00:00:00.0000000Z.json'; // including this date, if it exists
-const TO_DATETIME = '2025-11-30T23:59:59.0000000Z.json'; // including this date, if it exists
+const TO_DATETIME = '2025-12-02T23:59:59.0000000Z.json'; // including this date, if it exists
 
 type Pilot = { flight_plan?: { departure?: string; arrival?: string } };
 type VatData = { general: { update_timestamp: string }, pilots: Pilot[] };
